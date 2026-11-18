@@ -590,6 +590,10 @@ int tonerelay_wifi_scan_json(char *buf, size_t len)
     if (!buf || len < 32) {
         return -1;
     }
+    if (s_direct) {
+        /* A scan takes the radio off its channel for seconds: the box's own network would drop the very client that asked. */
+        return snprintf(buf, len, "{\"ok\":true,\"op\":\"wifi_scan\",\"aps\":[],\"direct\":true}");
+    }
     wifi_scan_config_t scan = {
         .show_hidden = false,
         .scan_type = WIFI_SCAN_TYPE_ACTIVE,

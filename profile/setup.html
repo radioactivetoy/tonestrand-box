@@ -60,6 +60,14 @@
     </div>
     <button id="change" class="quiet">Add or change a network</button>
   </section>
+
+  <section id="appass">
+    <h2>Password for the box's own network</h2>
+    <p class="muted">The box's own network (<span id="apname">ToneStrand Box</span>) is open until you set a password. It is what you join to edit with no Wi-Fi (direct mode: hold BOOT for 2 to 4 seconds). Anyone nearby can join an open network and the editing traffic is not encrypted.</p>
+    <input id="appw" type="password" placeholder="New password, 8 to 63 characters" autocomplete="new-password" autocapitalize="off" spellcheck="false">
+    <button id="setappw" class="quiet">Set password</button>
+    <p id="appwmsg" class="muted" role="status"></p>
+  </section>
 </main>
 <script>
 const $ = (id) => document.getElementById(id)
@@ -72,7 +80,10 @@ function show(which) {
   $('done').hidden = which !== 'done'
 }
 
+let direct = false
+
 async function scan() {
+  if (direct) return
   $('scan').disabled = true
   $('msg').textContent = 'Looking for networks...'
   try {
@@ -189,6 +200,26 @@ async function join() {
   $('join').disabled = false
 }
 
+$('setappw').onclick = async () => {
+  const pw = $('appw').value
+  if (pw.length < 8 || pw.length > 63) {
+    $('appwmsg').textContent = 'The password must be 8 to 63 characters.'
+    return
+  }
+  $('setappw').disabled = true
+  $('appwmsg').textContent = 'Saving...'
+  try {
+    const j = await api({ op: 'wifi_ap_password', password: pw })
+    $('appwmsg').textContent = j.ok
+      ? "Saved. The box's own network restarts now: join it again with this password."
+      : j.error || 'The box could not save it.'
+    if (j.ok) $('appw').value = ''
+  } catch (e) {
+    // The network restarts as it answers, so the reply may never arrive.
+    $('appwmsg').textContent = "Probably saved: the box's network restarts. Join it again with the new password."
+  }
+  $('setappw').disabled = false
+}
 $('join').onclick = () => void join()
 $('scan').onclick = () => void scan()
 $('change').onclick = () => {
@@ -198,7 +229,15 @@ $('change').onclick = () => {
 
 status()
   .then((j) => {
-    if (j.sta) {
+    if (j.ap) $('apname').textContent = j.ap
+    if (j.direct) {
+      direct = true
+      show('setup')
+      $('scan').disabled = true
+      $('join').disabled = true
+      $('msg').textContent =
+        'Direct mode: the box is on its own network and does not look for Wi-Fi (that would drop your connection). Unplug the box and plug it in again to go back to your Wi-Fi.'
+    } else if (j.sta) {
       $('ssid').textContent = j.ssid
       $('ip').textContent = j.ip
       show('done')

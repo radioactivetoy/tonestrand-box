@@ -21,7 +21,7 @@ Last updated 18 Nov 2026. "Verified" means we did it on our board (one Waveshare
 
 - Long editing sessions, and other pedals than the HX Stomp.
 - Pairing a phone, iPad or Mac for Bluetooth MIDI, and sending MIDI to the pedal.
-- Direct mode (BOOT held 2 to 4 s, own network at `192.168.4.1`): added, built, not yet tested on the board. Editing through the box's own network has not been tried.
+- Direct mode (BOOT held 2 to 4 s, own network at `192.168.4.1`): the network comes up, ToneStrand finds and sees the box, `/api/relay` reports `direct: true`. A first test dropped the connection while the setup page was open (it scanned for Wi-Fi); fixed in 0.2.1, not yet retested. Editing through the box's own network has not been tried.
 - The setup page's remaining behaviour on the renamed profile beyond loading it.
 - An `httpd_uri handler execution failed` warning in the log: seen once, cause unknown.
 
