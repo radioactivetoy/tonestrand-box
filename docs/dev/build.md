@@ -18,17 +18,17 @@ This was built on macOS (Apple silicon). Linux should follow the same steps but 
 ## Build
 
 ```bash
-git clone --recurse-submodules https://github.com/maveric1977/helrig-box.git
-cd helrig-box
+git clone https://github.com/radioactivetoy/tonestrand-box.git
+cd tonestrand-box
 . /path/to/esp-idf-v5.5.3/export.sh
 export LIBCLANG_PATH=...            # macOS: see above
 scripts/build.sh                    # or: scripts/build.sh --release
 ```
 
-`scripts/build.sh` builds ToneRelay (the submodule in `third_party/ToneRelay`) with this repository's `profile/` through the
+`scripts/build.sh` builds ToneRelay (the submodule in `firmware`) with this repository's `profile/` through the
 `TONERELAY_PROFILE_DIR` variable. The build includes ToneRelay's Bluetooth MIDI module (`sdkconfig.midi.defaults`; the link has to be encrypted). To build without it, run `ESP_IDF_SDKCONFIG_DEFAULTS=sdkconfig.defaults scripts/build.sh`. The first build compiles ESP-IDF and the Rust crates and takes a few minutes [bench: about 40 s for a
 rebuild with warm caches; the cold build was not timed]. The result is
-`third_party/ToneRelay/esp32-p4/target/riscv32imafc-esp-espidf/debug/hxbridge-p4`.
+`firmware/esp32-p4/target/riscv32imafc-esp-espidf/debug/hxbridge-p4`.
 
 ## Flash
 

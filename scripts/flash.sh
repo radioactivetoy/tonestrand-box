@@ -9,7 +9,7 @@
 set -euo pipefail
 
 HERE="$(cd "$(dirname "$0")/.." && pwd)"
-TONERELAY_DIR="${TONERELAY_DIR:-$HERE/third_party/ToneRelay}"
+TONERELAY_DIR="${TONERELAY_DIR:-$HERE/firmware}"
 PORT=""; FRESH=0; KIND=debug
 while [[ $# -gt 0 ]]; do
   case "$1" in

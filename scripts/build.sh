@@ -5,11 +5,11 @@
 #   scripts/build.sh --release  release build
 #
 # Needs ESP-IDF's environment (source its export.sh, so IDF_PATH is set), a rustup toolchain for esp-idf-sys, and ToneRelay's source in
-# third_party/ToneRelay (a submodule) or wherever TONERELAY_DIR points.
+# firmware/ (ToneRelay's source, imported into this repository) or wherever TONERELAY_DIR points.
 set -euo pipefail
 
 HERE="$(cd "$(dirname "$0")/.." && pwd)"
-TONERELAY_DIR="${TONERELAY_DIR:-$HERE/third_party/ToneRelay}"
+TONERELAY_DIR="${TONERELAY_DIR:-$HERE/firmware}"
 if [[ ! -d "$TONERELAY_DIR/esp32-p4" ]]; then
   echo "ToneRelay's source is not at $TONERELAY_DIR (git submodule update --init, or set TONERELAY_DIR)." >&2; exit 1
 fi

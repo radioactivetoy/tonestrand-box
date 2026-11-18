@@ -10,7 +10,7 @@
 set -euo pipefail
 
 HERE="$(cd "$(dirname "$0")/.." && pwd)"
-TONERELAY_DIR="${TONERELAY_DIR:-$HERE/third_party/ToneRelay}"
+TONERELAY_DIR="${TONERELAY_DIR:-$HERE/firmware}"
 KIND=debug; [[ "${1:-}" == "--release" ]] && KIND=release
 T="$TONERELAY_DIR/esp32-p4/target/riscv32imafc-esp-espidf/$KIND"
 [[ -f "$T/hxbridge-p4" && -f "$T/build/bootloader.bin" ]] || { echo "no $KIND build in $T: run scripts/build.sh first." >&2; exit 1; }
