@@ -1,4 +1,4 @@
 [submodule "third_party/ToneRelay"]
 	path = third_party/ToneRelay
-	url = https://github.com/maveric1977/ToneRelay.git
-	branch = main
+	url = https://github.com/radioactivetoy/ToneRelay.git
+	branch = tonestrand/c6-and-ble-fixes

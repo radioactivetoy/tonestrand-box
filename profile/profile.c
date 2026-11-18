@@ -1,5 +1,5 @@
 /*
- * The Helrig Box profile: what makes a ToneRelay build a Helrig Box. It is compiled into ToneRelay's firmware by scripts/build.sh
+ * The ToneStrand Box profile: what makes a ToneRelay build a ToneStrand Box (a fork of the Helrig Box profile). It is compiled into ToneRelay's firmware by scripts/build.sh
  * (TONERELAY_PROFILE_DIR points here); see ToneRelay's esp32-p4/components/tonerelay/profiles/README.md for the mechanism.
  *
  * The names follow Helrig's brand guide: the hardware is "Helrig Box", two words. A Wi-Fi network name may contain a space; a host
@@ -22,13 +22,13 @@ static const char *setup_page(size_t *len)
 }
 
 const tonerelay_profile_t TONERELAY_PROFILE = {
-    .name = "helrig",
-    .hostname = "helrigbox",           /* helrigbox.local */
-    .instance = "Helrig Box",          /* "Helrig Box e7fb0b" once the box id is added */
-    .service = "_helrigbox",           /* next to the contract's _tonerelay._tcp */
-    .ap_prefix = "Helrig Box",         /* the setup network, "Helrig Box e7fb0b" */
+    .name = "tonestrand",
+    .hostname = "tonestrandbox",       /* tonestrandbox.local */
+    .instance = "ToneStrand Box",      /* "ToneStrand Box e7fb0b" once the box id is added */
+    .service = "_tonestrandbox",       /* next to the contract's _tonerelay._tcp */
+    .ap_prefix = "ToneStrand Box",     /* the setup network, "ToneStrand Box e7fb0b" */
     .with_id = true,
     .setup_ap_only = true,             /* the setup network goes off once the box has joined one */
-    .relay_only_default = true,        /* a Helrig Box is a relay: the pedal belongs to the app */
+    .relay_only_default = true,        /* a ToneStrand Box is a relay: the pedal belongs to the app */
     .setup_page = setup_page,
 };

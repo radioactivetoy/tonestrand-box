@@ -25,6 +25,17 @@ cd "$TONERELAY_DIR/esp32-p4"
 touch sdkconfig.defaults
 cargo build "$@"
 
+# The onboard C6 runs ESP-Hosted slave firmware that the P4 embeds and updates over the air. Without network_adapter.bin the
+# update is skipped and a board with the factory C6 firmware has no Wi-Fi scan. It is built from the ESP-Hosted sources the first
+# build downloads, so build once, make it, and build again.
+SLAVE="$TONERELAY_DIR/esp32-p4/components/tonerelay/slave_fw/network_adapter.bin"
+if [[ ! -f "$SLAVE" ]]; then
+  echo "No C6 image yet: building it (needs ESP-IDF for esp32c6), then building the box again."
+  "$TONERELAY_DIR/esp32-p4/build-c6-slave.sh"
+  touch sdkconfig.defaults
+  cargo build "$@"
+fi
+
 KIND=debug
 for a in "$@"; do [[ "$a" == "--release" ]] && KIND=release; done
 echo "built: $TONERELAY_DIR/esp32-p4/target/riscv32imafc-esp-espidf/$KIND/hxbridge-p4 (profile: $TONERELAY_PROFILE_DIR)"
