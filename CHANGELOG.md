@@ -14,6 +14,7 @@ Changes since the fork from the [Helrig Box](https://github.com/maveric1977/helr
 - New: direct mode (hold BOOT 2 to 4 s): own network on, no Wi-Fi joining until restart; reported as `direct` in `/api/relay`. Pairing press is now under 1.5 s. Published as `0.2.0-dev.direct` (a release build, the first on the flasher).
 - Fix (found testing direct mode): the setup page scanned for Wi-Fi on load, which takes the radio off the box's own network for seconds, so the connection dropped and the box stopped answering. In direct mode the box no longer scans. New: a "Password for the box's own network" field on the setup page (the op existed, the page had no way to use it). Published as `0.2.1-dev.direct`.
 - Verified: direct mode with a password, HX Stomp, test page and live editing over the box's own network.
+- The flasher's faster speed options (added and removed the same day) stalled the flash on the test board and left it unbootable until reflashed over the cable; the page stays at 115200.
 - Docs rewritten for the fork: provenance, status, WSL2/Windows build, C6 co-processor notes.
 - Verified on one board: cold build in about 60 s, flash with `espflash` 4.7.0 from Windows, C6 2.12.13, Wi-Fi scan and join, BLE advertising.
 - Verified: the board flashed from the GitHub Pages flasher works.

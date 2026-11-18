@@ -15,6 +15,7 @@ Last updated 18 Nov 2026. "Verified" means we did it on our board (one Waveshare
 | Bluetooth LE | Advertises |
 | Direct mode (BOOT held 2 to 4 s) with a secured own network (18 Nov 2026, 0.2.1) | Windows joins `ToneStrand Box e7f7c4` with the password, ToneStrand connects to the HX Stomp through the box, the test page passes and live editing works with no router. A first test (0.2.0) dropped the connection while the setup page was open, because it scanned for Wi-Fi; fixed in 0.2.1 |
 | Setting the box's network password from the setup page | Works |
+| Faster flashing from the page (460800, 921600) | Fails: "serial data stream stopped", and the half-written board does not boot until it is flashed again. The page stays at 115200 (about 2 minutes); `espflash` over the cable takes about 3 minutes too |
 | Flashing from the browser flasher on GitHub Pages (Chrome/Edge, COM port, 18 Nov 2026) | Works; the board then ran the page's firmware |
 | HX Stomp plugged into the box, edited from ToneStrand over Wi-Fi (18 Nov 2026) | Connects, the test page passes, live editing works |
 | ToneStrand finds and pairs the box by itself | Works (discovery can take several seconds) |

@@ -1,8 +1,8 @@
 {
   "name": "ToneStrand Box",
   "chip": "ESP32-P4",
-  "version": "0.2.1-dev.direct",
-  "toneRelay": "fc42017",
+  "version": "0.2.1",
+  "toneRelay": "1ac199d",
   "parts": [
     {
       "file": "bootloader.bin",
