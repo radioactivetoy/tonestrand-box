@@ -1,2 +1,5 @@
 # build products live in firmware/esp32-p4/target; nothing is generated here
 .DS_Store
+
+# built by scripts/package-web.sh; the Pages workflow takes the released ones
+web/firmware/

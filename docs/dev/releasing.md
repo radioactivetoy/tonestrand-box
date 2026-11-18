@@ -1,20 +1,22 @@
 # Releasing
 
-The flasher is the static site in `web/`, published by GitHub Pages at **https://radioactivetoy.github.io/tonestrand-box/**. `.github/workflows/pages.yml` uploads `web/` as it is on every push to `main` that touches it (no build step). The firmware parts the page flashes are committed in `web/firmware/`.
+Development is built locally ([build.md](build.md)). **Releases are built by GitHub Actions**, so the published files come from a clean machine.
 
-## One-time setup
+## Make a release
 
-Repository Settings, Pages, Source: **GitHub Actions**. (Or: `gh api -X POST repos/radioactivetoy/tonestrand-box/pages -f build_type=workflow`.)
+1. Update `CHANGELOG.md` and `docs/status.md`. Test the build you intend to release on a board (build locally with `scripts/build.sh --release` and flash it).
+2. Tag and push: `git tag -a v0.4.0 -m "ToneStrand Box 0.4.0" && git push origin main v0.4.0`. A tag with a dash (`v0.4.0-rc1`) is published as a pre-release.
+3. The **Release** workflow (`.github/workflows/release.yml`) installs ESP-IDF 5.5.3 and the pinned Rust nightly, builds the firmware and the ESP32-C6 image with `scripts/build.sh --release`, packages it with `scripts/package-web.sh`, and publishes the release with: `tonestrand-box-web-firmware-<version>.zip` (what the flasher writes), `hxbridge-p4` and `partitions.csv` (for `espflash`). The first build takes a long time (about 30 to 60 minutes, ESP-IDF is installed); later ones reuse the cache.
+4. It then starts the **Pages** workflow, which redeploys the flasher page with the firmware from the latest *full* release (pre-releases are not served by the page).
 
-## Each release
+"Run workflow" on the Release workflow (without a tag) only builds, and attaches the files to the run: use it to try the pipeline.
 
-1. Build a release image in WSL or Linux: `scripts/build.sh --release` ([build.md](build.md)).
-2. Package it: `BOX_VERSION=0.1.0 scripts/package-web.sh --release`. This writes `web/firmware/{bootloader,partition-table,app}.bin` and `manifest.json` (parts with sizes and SHA-256; the page checks them before it writes anything). Without `BOX_VERSION` the version is `0.1.0-dev.<commit>`.
-3. Try it locally: `cd web && python3 -m http.server 8765 --bind 127.0.0.1`, open `http://127.0.0.1:8765/` in Chrome or Edge and flash a board. Web Serial works on `localhost` and on https, not on plain http from another host.
-4. Commit `web/firmware`, tag it (`git tag v0.1.0`) and push. Pages deploys. A tag named `vX.Y.Z` makes the page link to the GitHub release notes, so create the release too (`gh release create v0.1.0`).
+The CI build is not bit-identical to a local one, so flash and test the released file at least once.
 
-The page writes the bootloader (0x2000), the partition table (0x8000) and the app (0x10000) only, so an update keeps the saved Wi-Fi network. "Start as a new box" also writes empty data over the settings area (0x9000, 0x6000 bytes).
+## The flasher page
 
-## What the page does and does not do
+`web/` is a static site published by `.github/workflows/pages.yml` at **https://radioactivetoy.github.io/tonestrand-box/**; `web/firmware/` is not committed (it is git-ignored). For a local try-out: `scripts/package-web.sh --release`, then `cd web && python3 -m http.server 8765 --bind 127.0.0.1` and open `http://127.0.0.1:8765/` in Chrome or Edge (Web Serial needs localhost or https).
 
-It runs entirely in the browser with [esptool-js](https://github.com/espressif/esptool-js) (`web/vendor`, Apache-2.0). It sends nothing anywhere: no analytics, no cookies. (The inherited Helrig page used PostHog; that was removed.) The fonts in `web/fonts` are SIL OFL.
+The page writes the bootloader (0x2000), the partition table (0x8000) and the app (0x10000) only, so an update keeps the saved Wi-Fi network. "Start as a new box" also writes empty data over the settings area (0x9000, 0x6000 bytes). It checks each file's SHA-256 from `manifest.json` before it writes anything.
+
+It runs entirely in the browser with [esptool-js](https://github.com/espressif/esptool-js) (`web/vendor`, Apache-2.0). It sends nothing anywhere: no analytics, no cookies. The fonts in `web/fonts` are SIL OFL.

@@ -1,0 +1,106 @@
+# Builds the firmware in the cloud and publishes a release. Day-to-day development is built locally (docs/dev/build.md);
+# this is for releases, so the published files come from a clean machine and not from someone's laptop.
+#
+#   git tag v0.4.0 && git push origin v0.4.0     builds, publishes the release (a tag with a dash, such as v0.4.0-rc1, is a pre-release)
+#                                                and then redeploys the flasher page, which serves the latest full release
+#   "Run workflow" (workflow_dispatch)           builds only; the files are attached to the run
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  firmware:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      IDF_VERSION: v5.5.3
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Version
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then V="${GITHUB_REF_NAME#v}"; else V="0.0.0-ci.${GITHUB_SHA::7}"; fi
+          echo "BOX_VERSION=$V" >> "$GITHUB_ENV"
+          echo "Version: $V"
+
+      - name: Packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y git wget flex bison gperf python3 python3-venv cmake ninja-build ccache libffi-dev libssl-dev dfu-util libusb-1.0-0 clang libclang-dev zip
+
+      - name: Cache ESP-IDF
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/esp
+            ~/.espressif
+          key: idf-${{ env.IDF_VERSION }}-esp32p4-esp32c6
+
+      - name: Install ESP-IDF
+        run: |
+          if [ ! -d ~/esp/esp-idf ]; then
+            mkdir -p ~/esp
+            git clone -b "$IDF_VERSION" --recursive --depth 1 --shallow-submodules https://github.com/espressif/esp-idf.git ~/esp/esp-idf
+          fi
+          ~/esp/esp-idf/install.sh esp32p4,esp32c6
+
+      - name: Rust
+        run: |
+          curl https://sh.rustup.rs -sSf | sh -s -- -y --profile minimal --default-toolchain none
+          echo "$HOME/.cargo/bin" >> "$GITHUB_PATH"
+
+      - name: Cache cargo tools
+        uses: actions/cache@v4
+        with:
+          path: ~/.cargo/bin
+          key: cargo-tools-ldproxy-espflash-4.7.0
+
+      - name: Cargo tools (ldproxy, espflash)
+        run: |
+          export PATH="$HOME/.cargo/bin:$PATH"
+          rustup toolchain install stable --profile minimal
+          command -v ldproxy >/dev/null || cargo +stable install ldproxy --locked
+          command -v espflash >/dev/null || cargo +stable install espflash --version 4.7.0 --locked
+
+      - name: Build the firmware (and the ESP32-C6 image)
+        run: |
+          . ~/.cargo/env
+          . ~/esp/esp-idf/export.sh
+          export LIBCLANG_PATH=$(ls -d /usr/lib/llvm-*/lib | tail -1)
+          scripts/build.sh --release
+
+      - name: Package
+        run: |
+          . ~/.cargo/env
+          scripts/package-web.sh --release
+          mkdir out
+          (cd web/firmware && zip -j "../../out/tonestrand-box-web-firmware-$BOX_VERSION.zip" manifest.json app.bin bootloader.bin partition-table.bin)
+          cp firmware/esp32-p4/target/riscv32imafc-esp-espidf/release/hxbridge-p4 firmware/esp32-p4/partitions.csv out/
+          ls -l out
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tonestrand-box-${{ env.BOX_VERSION }}
+          path: out/*
+
+      - name: Publish the release
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          PRE=""; [[ "$BOX_VERSION" == *-* ]] && PRE="--prerelease"
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" out/* --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" out/* $PRE --title "ToneStrand Box $BOX_VERSION" \
+              --notes "Built by GitHub Actions from this tag. Install: https://radioactivetoy.github.io/tonestrand-box/ or flash hxbridge-p4 with espflash (see docs/flashing.md). What changed: CHANGELOG.md. What is tested: docs/status.md."
+          fi
+          # A release made with the workflow's own token does not start other workflows, so ask for the page to be redeployed.
+          gh workflow run pages.yml

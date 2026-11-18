@@ -18,6 +18,7 @@ Changes since the fork from the [Helrig Box](https://github.com/maveric1977/helr
 - Removed the 3D case files (the lid carried the Helrig mark); `hardware/README.md` points to the Helrig Box's files.
 - Code review fixes: a press of BOOT held 1.5 to 5 s while a pairing window is open now confirms the pairing instead of starting direct mode; direct mode also wins over a join that was already under way (the join is let go again and the own network is not switched off). Known limitations are listed in `docs/status.md`.
 - Fix: while someone is connected to the box's own network, the box no longer scans for a saved Wi-Fi network in the background (a scan takes the radio off the own network's channel and dropped the client every few seconds when the router was off). It looks again when the client leaves. First-time setup is not affected: with no saved network the background retries never run, and the setup page's own Scan and Connect always work.
+- GitHub Actions: releases are built in the cloud (`release.yml`, on a tag), and the flasher page serves the firmware of the latest full release (`pages.yml`); `web/firmware` is no longer committed. Development stays local.
 - Docs rewritten for the fork: provenance, status, WSL2/Windows build, C6 co-processor notes.
 - Verified on one board: cold build in about 60 s, flash with `espflash` 4.7.0 from Windows, C6 2.12.13, Wi-Fi scan and join, BLE advertising.
 - Verified: the board flashed from the GitHub Pages flasher works.
