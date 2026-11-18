@@ -10,7 +10,7 @@
 | **A USB-C cable that carries data** | For power and flashing. A charge-only cable will not show a serial device. |
 | **A USB-C power source** | A 5 V phone charger or a computer port. |
 | **The pedal's USB cable** | The end that goes into the box must be USB-A, the box's pedal port. |
-| **A case** (optional) | A 3D-printable [lid and bottom](../hardware/casing/README.md). |
+| **A case** (optional) | A 3D-printed case: this repository has none, see [where to get one](../hardware/README.md). |
 
 Upstream tried a Helix LT and an HX Stomp; we have an HX Stomp. Other pedals and other ESP32-P4 boards are untested. Wi-Fi is **2.4 GHz only**.
 

@@ -21,7 +21,7 @@ commits are the ones by `radioactivetoy`. ToneRelay was imported into `firmware/
 - All of the firmware: the relay, the USB host code for the pedal, the Wi-Fi/SoftAP/mDNS handling, the BLE MIDI module, the protocol. (`firmware/`, MIT.)
 - The idea and design of the box, the profile mechanism, the setup page's structure, the pairing-by-BOOT-button design, the guides and the measurements in `docs/`.
 - The original web flasher (our `web/index.html` is derived from it) and the artwork, which we removed (not ours to reuse, see [NOTICE.md](NOTICE.md)).
-- The hardware case adaptation, itself an adaptation of a CC BY 4.0 model by MartinFaustMayer (see [hardware/casing/ATTRIBUTION.md](hardware/casing/ATTRIBUTION.md)).
+- The case files (removed from this fork; see [hardware/README.md](hardware/README.md)), themselves an adaptation of a CC BY 4.0 model by MartinFaustMayer.
 - `firmware/vendor/tonepush`: protocol crates from [crmne/tonepush](https://github.com/crmne/tonepush) (MIT), bundled with ToneRelay.
 
 ## What we changed
@@ -42,7 +42,7 @@ Everything else is unchanged and still theirs. If you only want the original, us
 ## What we did not do
 
 - We did not ask for, and do not have, permission to use the **Helrig** name or logo. This product does not use them as its identity. We removed them from the software, the
-  flasher and the docs (`brand/` is deleted). The only remaining trace is the debossed Helrig mark in the lid STL files, noted in [NOTICE.md](NOTICE.md); it will be replaced.
+  flasher and the docs (`brand/` is deleted). The case files, whose lid carried the Helrig mark, were removed too; the only trace is the fork's git history (see [NOTICE.md](NOTICE.md)).
 - The **web flasher** at box.helrig.com belongs to the Helrig project. Ours is a separate page on GitHub Pages, derived from theirs, and we do not use their domain, hosting or analytics.
 - We have not been endorsed by Helrig, Mark Peskett, MartinFaustMayer, Line 6 or Yamaha Guitar Group.
 

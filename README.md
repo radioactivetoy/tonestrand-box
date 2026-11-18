@@ -37,7 +37,7 @@ network.** Guides inherited from the Helrig Box and not yet repeated on this for
 ## Get one running
 
 1. **Get the parts.** The board, a USB-C cable that carries data, a USB-C power source, and the cable you use to connect your pedal to a computer.
-   A [3D-printable case](hardware/casing/README.md) is optional. [Full list](docs/flashing.md#what-you-need).
+   A 3D-printed case is optional (this repository has none; [where to get one](hardware/README.md)). [Full list](docs/flashing.md#what-you-need).
 2. **Flash the firmware** from your browser (desktop Chrome or Edge) at **https://radioactivetoy.github.io/tonestrand-box/**, or build it yourself with `scripts/build.sh` and flash it with `espflash`. [Flashing](docs/flashing.md) · [Build from source (Windows/WSL2, macOS, Linux)](docs/dev/build.md).
 3. **Set it up.** Join the Wi-Fi network the box makes (`ToneStrand Box` plus six characters), open `http://192.168.4.1` and pick your home Wi-Fi.
    [Setup and factory reset](docs/setup.md).
@@ -57,5 +57,4 @@ The box works on 2.4 GHz Wi-Fi only and remembers up to three networks. Pairing 
 
 ## Licence
 
-Code and docs are MIT ([LICENSE](LICENSE), copyright Yashar Moradi; the imported firmware in `firmware/` keeps its own MIT licence). The 3D case is
-CC BY 4.0. The Helrig name and artwork are not ours and not covered (we removed them from the software; see [NOTICE.md](NOTICE.md) for what remains in the case files). Not affiliated with Line 6 or Yamaha Guitar Group.
+Code and docs are MIT ([LICENSE](LICENSE), copyright Yashar Moradi; the imported firmware in `firmware/` keeps its own MIT licence). The Helrig name and artwork are not ours and not covered; we removed them, and the 3D case files with them (see [NOTICE.md](NOTICE.md)). Not affiliated with Line 6 or Yamaha Guitar Group.

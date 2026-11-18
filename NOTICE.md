@@ -20,10 +20,9 @@ file. The relay protocol the editor speaks is ToneRelay's `docs/raw-relay-protoc
 
 ## The 3D-printable case
 
-The files in `hardware/casing/` are an adaptation of the [Waveshare ESP32-P4-NANO case and board model](https://www.printables.com/model/1497431-waveshare-esp32-p4-nano-case-and-board-model)
-by MartinFaustMayer (@MartinFaustMa_212591) on Printables, licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), and are shared under the same licence, not under
-this repository's MIT licence. `hardware/casing/ATTRIBUTION.md` has the credit and the list of changes; keep it with the files if you share them. The Helrig symbol and wordmark
-debossed in the lid files are Helrig's (see "Helrig name and logo" below) and will be replaced: the licence covers the model, not the Helrig name or logo.
+Not included. We removed the case files that came with the fork (they carried the Helrig mark); [hardware/README.md](hardware/README.md) points to the Helrig Box's files, which are an
+adaptation of a [Waveshare ESP32-P4-NANO case and board model](https://www.printables.com/model/1497431-waveshare-esp32-p4-nano-case-and-board-model) by MartinFaustMayer
+(@MartinFaustMa_212591) on Printables, licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The files remain in this repository's git history, under that licence.
 
 ## Fonts
 
@@ -34,7 +33,7 @@ choices in `web/site.css` follow helrig.com's dark theme.
 ## Helrig name and logo
 
 "Helrig", "Helrig Box" and the Helrig logo and badge are Helrig's and are **not** covered by the MIT licence. We removed them from the software, the web flasher and the docs.
-The only place they remain is the lid files in `hardware/casing/`, where the Helrig symbol and wordmark are debossed into the model; see `hardware/casing/ATTRIBUTION.md`.
+They remain only in this repository's git history (the fork's earlier commits).
 Do not use them for another product.
 
 ## Line 6

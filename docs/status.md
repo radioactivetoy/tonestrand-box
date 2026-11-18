@@ -41,4 +41,4 @@ Helix LT and HX Stomp tested upstream; Bluetooth MIDI with an HX Stomp, an iPad,
 1. Test the box with a pedal and ToneStrand over Wi-Fi; test BLE MIDI from a phone/iPad; test the box's own network.
 2. Bluetooth editing: a BLE GATT service that carries the same raw relay as the Wi-Fi socket, plus a client in ToneStrand. Wi-Fi Direct is not possible on ESP-IDF (it does not support it), so the options for "no Wi-Fi" are the box's own network and BLE. Bluetooth MIDI stays an option, through separate switches.
 3. Security for Bluetooth: bonding plus a BOOT-button pairing window (upstream has none for BLE MIDI).
-4. Version string and status page; over-the-air updates; replace the remaining Helrig branding.
+4. Version string and status page; over-the-air updates.
