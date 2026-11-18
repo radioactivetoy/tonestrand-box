@@ -417,6 +417,17 @@ static void on_scan_done(void)
     memset(nets, 0, sizeof(nets));
 }
 
+/* Someone is connected to the box's own network. Looking for a saved network means a scan, which takes the radio off the
+ * channel of the box's own network for seconds and drops that client, so the retries wait while it is there. */
+static bool ap_has_clients(void)
+{
+    if (!s_ap_on) {
+        return false;
+    }
+    wifi_sta_list_t list;
+    return esp_wifi_ap_get_sta_list(&list) == ESP_OK && list.num > 0;
+}
+
 static void wifi_worker(void *arg)
 {
     (void)arg;
@@ -436,6 +447,14 @@ static void wifi_worker(void *arg)
             }
             break;
         case REQ_JOIN_RETRY:
+            if (s_sta_configured && !s_sta_up && !s_choosing && !s_connecting && ap_has_clients()) {
+                ESP_LOGI(TAG, "a client is on the box's own network: not looking for a saved network now");
+                if (s_sta_retry_timer) {
+                    esp_timer_stop(s_sta_retry_timer);
+                    esp_timer_start_once(s_sta_retry_timer, 8ULL * 1000000ULL);
+                }
+                break;
+            }
             if (s_sta_configured && !s_sta_up && !s_choosing && !s_connecting) {
                 join_saved(false);
             }

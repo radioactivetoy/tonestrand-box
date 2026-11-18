@@ -14,7 +14,7 @@ You need a box with the [firmware installed](flashing.md).
 
 About 45 seconds after the box joins your Wi-Fi, it switches its own network off. Your phone may keep showing the name for a few minutes. That is your phone's old list, not the box.
 
-If the box can't join any saved network for 40 seconds (a new router, say), its own network comes back. Repeat steps 2 and 3.
+If the box can't join any saved network for 40 seconds (a new router, say), its own network comes back. Repeat steps 2 and 3. While you are connected to that network the box does not look for your saved networks in the background (that would drop your connection); it looks again when you leave, or after a restart.
 
 While the box is on your Wi-Fi, the same page is at the box's address, and you can add another network there.
 
