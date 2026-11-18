@@ -25,7 +25,7 @@ export LIBCLANG_PATH=...            # macOS: see above
 scripts/build.sh                    # or: scripts/build.sh --release
 ```
 
-`scripts/build.sh` builds ToneRelay (the submodule in `firmware`) with this repository's `profile/` through the
+`scripts/build.sh` builds ToneRelay (in `firmware/`) with this repository's `profile/` through the
 `TONERELAY_PROFILE_DIR` variable. The build includes ToneRelay's Bluetooth MIDI module (`sdkconfig.midi.defaults`; the link has to be encrypted). To build without it, run `ESP_IDF_SDKCONFIG_DEFAULTS=sdkconfig.defaults scripts/build.sh`. The first build compiles ESP-IDF and the Rust crates and takes a few minutes [bench: about 40 s for a
 rebuild with warm caches; the cold build was not timed]. The result is
 `firmware/esp32-p4/target/riscv32imafc-esp-espidf/debug/hxbridge-p4`.

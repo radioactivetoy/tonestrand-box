@@ -11,7 +11,7 @@ set -euo pipefail
 HERE="$(cd "$(dirname "$0")/.." && pwd)"
 TONERELAY_DIR="${TONERELAY_DIR:-$HERE/firmware}"
 if [[ ! -d "$TONERELAY_DIR/esp32-p4" ]]; then
-  echo "ToneRelay's source is not at $TONERELAY_DIR (git submodule update --init, or set TONERELAY_DIR)." >&2; exit 1
+  echo "ToneRelay's source is not at $TONERELAY_DIR (or set TONERELAY_DIR)." >&2; exit 1
 fi
 if [[ -z "${IDF_PATH:-}" ]]; then
   echo "IDF_PATH is not set: source ESP-IDF's export.sh first." >&2; exit 1

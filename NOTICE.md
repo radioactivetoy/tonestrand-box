@@ -3,7 +3,7 @@
 ## ToneRelay
 
 The firmware in this product is [ToneRelay](https://github.com/mpeskett88/ToneRelay) (MIT licence, Copyright (c) 2026 the ToneRelay
-authors), built with the profile in `profile/`. ToneRelay's source is included as the submodule `firmware`, with its licence
+authors), built with the profile in `profile/`. ToneRelay's source is included in `firmware/`, with its licence
 file. The relay protocol the Helrig app speaks is ToneRelay's `docs/raw-relay-protocol.md`.
 
 ## The web flasher
