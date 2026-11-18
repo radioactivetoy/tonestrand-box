@@ -2,7 +2,7 @@
 
 Changes since the fork from the [Helrig Box](https://github.com/maveric1977/helrig-box) (see [PROVENANCE.md](PROVENANCE.md)). Dates are 2026.
 
-## Unreleased (Nov 2026)
+## 0.3.0 (18 Nov 2026): the first release
 
 - Forked; ToneRelay imported into `firmware/` with its history; single repository, no submodule.
 - Renamed the box: `ToneStrand Box`, `tonestrandbox`, `_tonestrandbox`; wordmark and accent colour on the setup page.
