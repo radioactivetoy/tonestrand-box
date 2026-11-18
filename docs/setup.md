@@ -9,7 +9,7 @@ You need a box with the [firmware installed](flashing.md).
 1. Plug the box in. It starts its own Wi-Fi network called `ToneStrand Box` plus six characters, for example `ToneStrand Box 3fa9c1`. The same six characters show after "ToneStrand Box" in ToneStrand.
 2. On your phone, join that network and open `http://192.168.4.1`. The page lists the Wi-Fi networks the box can see. Only 2.4 GHz networks show up.
 3. Pick yours, type the password, and press **Connect**. The page says when the box is on your network and shows its address.
-4. Open ToneStrand, plug your pedal into the box, and choose the box in the device menu. ToneStrand finds it on its own. You never type an address.
+4. Open ToneStrand, plug your pedal into the box, and choose the box in the device menu. ToneStrand finds boxes that announce `_helrigbox` or `_tonerelay`; discovery of `_tonestrandbox` is planned, so for now you may need to add the box by its address (see [status](status.md)).
 5. The first time, ToneStrand says the box **needs pairing**. Do the steps under [Pairing](#pairing) below. 
 
 About 45 seconds after the box joins your Wi-Fi, it switches its own network off. Your phone may keep showing the name for a few minutes. That is your phone's old list, not the box.
@@ -40,7 +40,7 @@ The box remembers up to three Wi-Fi networks, for example home, the rehearsal ro
 - The page lists your saved networks, names only, never passwords. **Forget** removes one.
 - Save a fourth and it replaces the one the box joined longest ago.
 - **Phone hotspot:** the box only does 2.4 GHz, so switch on your hotspot's compatibility option. On an iPhone it is called Maximize Compatibility.
-- When the box moves to a different network, your phone is no longer on the same Wi-Fi, so the setup page can't reach it any more. The page tells you after a few seconds. Put your phone on the box's new network and open ToneStrand. It finds the box on its own.
+- When the box moves to a different network, your phone is no longer on the same Wi-Fi, so the setup page can't reach it any more. The page tells you after a few seconds. Put your phone on the box's new network and open ToneStrand. Add it again by its address if it is not found.
 
 ## Factory reset
 
