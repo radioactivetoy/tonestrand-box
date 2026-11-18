@@ -43,8 +43,8 @@ static void reset_task(void *arg)
         if (gpio_get_level(TONERELAY_RESET_GPIO) != 0) {
             if (down_at != 0) {
                 int64_t held = esp_timer_get_time() - down_at;
-                if (held >= MIN_PRESS_US && held < PAIR_MAX_US) {
-                    tonerelay_relay_pair_press(); /* a short press confirms an open pairing window */
+                if (held >= MIN_PRESS_US && (held < PAIR_MAX_US || (held < HOLD_US && tonerelay_relay_pairing_open()))) {
+                    tonerelay_relay_pair_press(); /* a short press confirms an open pairing window (a longer one too, while one is open) */
                 } else if (held >= PAIR_MAX_US && held < HOLD_US) {
                     ESP_LOGW(TAG, "held %d ms: direct mode", (int)(held / 1000));
                     tonerelay_wifi_direct_mode(); /* released between 1.5 and 5 s: own network on, no router, until restart */

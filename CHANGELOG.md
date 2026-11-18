@@ -16,6 +16,7 @@ Changes since the fork from the [Helrig Box](https://github.com/maveric1977/helr
 - Verified: direct mode with a password, HX Stomp, test page and live editing over the box's own network.
 - The flasher's faster speed options (added and removed the same day) stalled the flash on the test board and left it unbootable until reflashed over the cable; the page stays at 115200.
 - Removed the 3D case files (the lid carried the Helrig mark); `hardware/README.md` points to the Helrig Box's files.
+- Code review fixes: a press of BOOT held 1.5 to 5 s while a pairing window is open now confirms the pairing instead of starting direct mode; direct mode also wins over a join that was already under way (the join is let go again and the own network is not switched off). Known limitations are listed in `docs/status.md`.
 - Docs rewritten for the fork: provenance, status, WSL2/Windows build, C6 co-processor notes.
 - Verified on one board: cold build in about 60 s, flash with `espflash` 4.7.0 from Windows, C6 2.12.13, Wi-Fi scan and join, BLE advertising.
 - Verified: the board flashed from the GitHub Pages flasher works.

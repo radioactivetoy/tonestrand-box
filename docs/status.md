@@ -36,6 +36,16 @@ Helix LT and HX Stomp tested upstream; Bluetooth MIDI with an HX Stomp, an iPad,
 - Release binaries and a release process: the browser flasher publishes a development (debug) build, `0.1.0-dev.<commit>`. Flashing from it works; a release build and tagged versions are still to do.
 - Pairing and discovery from ToneStrand: ToneStrand looks for `_helrigbox` and `_tonerelay` services; adding `_tonestrandbox` is planned. Until then add the box by its address.
 
+## Known limitations (read before relying on it)
+
+Found in a code review of the changes and of the inherited firmware, 18 Nov 2026:
+
+- **The box's Wi-Fi settings are not protected by pairing.** Pairing (the BOOT-button token) guards the pedal relay, but the setup commands (`wifi_join`, `wifi_forget`, `wifi_ap_password`, `wifi_scan` through `/api/cmd`) answer to anyone who can reach the box. On your home network, any device could change or forget the box's Wi-Fi or set the password of its own network. On the box's own network, an open network lets anyone nearby do the same until you set a password. This is how the Helrig Box and ToneRelay work. Use the box on networks you trust and set the password of its own network. Fixing it (asking for the pairing token, or a BOOT press, for these commands) is planned.
+- **The setup page sends passwords in plain HTTP.** Both the home Wi-Fi password you type there and the box's own network password travel unencrypted on the network you are on.
+- **No encryption of the editing traffic.** Same as upstream: pairing proves who may connect, it does not encrypt.
+- **Bluetooth MIDI has no pairing window** (upstream): anyone in range can pair with the box. The link is encrypted once paired.
+- **Faster flashing from the page stalls** on this board (see above); the page stays at 115200.
+
 ## Planned
 
 1. Test the box with a pedal and ToneStrand over Wi-Fi; test BLE MIDI from a phone/iPad; test the box's own network.

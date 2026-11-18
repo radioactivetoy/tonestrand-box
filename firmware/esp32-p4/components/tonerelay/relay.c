@@ -596,6 +596,11 @@ static volatile int64_t s_pair_until_ms; /* 0: no window open */
 static volatile bool s_pair_confirmed;
 static char s_pair_nonce[17];
 
+bool tonerelay_relay_pairing_open(void)
+{
+    return s_pair_until_ms != 0 && now_ms() < s_pair_until_ms;
+}
+
 void tonerelay_relay_pair_press(void)
 {
     if (s_pair_until_ms != 0 && now_ms() < s_pair_until_ms) {

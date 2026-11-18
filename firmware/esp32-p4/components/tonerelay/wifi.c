@@ -271,7 +271,7 @@ static void start_ap(void)
 static void ap_timer_cb(void *arg)
 {
     (void)arg;
-    if (!tonerelay_profile()->setup_ap_only) {
+    if (!tonerelay_profile()->setup_ap_only || s_direct) {
         return;
     }
     if (s_sta_up && s_ap_on) {
@@ -526,6 +526,12 @@ static void on_wifi(void *arg, esp_event_base_t base, int32_t id, void *data)
             esp_timer_stop(s_sta_retry_timer);
         }
         ESP_LOGI(TAG, "STA ip=%s", s_sta_ip);
+        if (s_direct) {
+            /* The button was pressed while a join was under way: direct mode wins, let go again. */
+            s_leaving = true;
+            esp_wifi_disconnect();
+            return;
+        }
         s_skip[0] = 0;
         post_req(REQ_PROMOTE);
         if (s_ap_on) {

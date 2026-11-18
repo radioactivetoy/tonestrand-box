@@ -38,7 +38,7 @@ To edit where there is no Wi-Fi (a stage, a rehearsal room without a router), pu
 
 - Direct mode lasts until the box restarts: unplug it and plug it in again to go back to your Wi-Fi. Nothing is erased, so pairings and saved networks stay.
 - Choosing a network on the setup page (while connected to the box's network) also ends direct mode.
-- A press shorter than 1.5 seconds still confirms pairing, and holding for 5 seconds is still a factory reset. This timing is a ToneStrand Box change; in the Helrig Box a press up to 5 seconds confirmed pairing.
+- A press shorter than 1.5 seconds still confirms pairing (while a pairing window is open, a press up to 5 seconds confirms it, so a slow press cannot knock the box off your network), and holding for 5 seconds is still a factory reset. This timing is a ToneStrand Box change; in the Helrig Box a press up to 5 seconds confirmed pairing.
 - **Set a password for the box's network first**: the setup page has a "Password for the box's own network" section (8 to 63 characters; the box's network restarts, so join it again with the password). Until you do, the network is open and the editing traffic is not encrypted, so anyone nearby could join it.
 - In direct mode the setup page does not scan for Wi-Fi (a scan would drop your connection), so its network list is empty; plug the box out and in to choose a network.
 - Your computer loses internet while it is on the box's network.

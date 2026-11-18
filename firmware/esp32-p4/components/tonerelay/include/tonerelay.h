@@ -95,6 +95,7 @@ void tonerelay_http_start(void);
 /* Raw relay (docs/raw-relay-protocol.md). While relay-only is on, the box opens no session of its own. */
 void tonerelay_relay_start(void);
 bool tonerelay_relay_only(void);
+bool tonerelay_relay_pairing_open(void); /* a pairing window is open (a press of BOOT then confirms it, however long it is held, up to 5 s) */
 void tonerelay_relay_pair_press(void); /* a short press of BOOT (under 1.5 s): confirms an open pairing window (see relay.c) */
 void tonerelay_relay_token(char *out, size_t cap); /* the box's token (32 hex characters); see relay.c */
 void tonerelay_ble_start(void);
