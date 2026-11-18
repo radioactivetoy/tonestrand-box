@@ -1,4 +1,4 @@
-> **Status:** inherited from the Helrig Box guide (see [PROVENANCE](../PROVENANCE.md)) and renamed. Not yet repeated on this fork with a pedal and ToneStrand: see [status](status.md).
+> **Status:** this guide comes from the Helrig Box guide (see [PROVENANCE](../PROVENANCE.md)). Setting up on Wi-Fi, pairing with ToneStrand and direct mode are verified on this fork with an HX Stomp; Bluetooth MIDI is not (see [status](status.md)).
 
 # Setting up a ToneStrand Box
 
@@ -9,7 +9,7 @@ You need a box with the [firmware installed](flashing.md).
 1. Plug the box in. It starts its own Wi-Fi network called `ToneStrand Box` plus six characters, for example `ToneStrand Box 3fa9c1`. The same six characters show after "ToneStrand Box" in ToneStrand.
 2. On your phone, join that network and open `http://192.168.4.1`. The page lists the Wi-Fi networks the box can see. Only 2.4 GHz networks show up.
 3. Pick yours, type the password, and press **Connect**. The page says when the box is on your network and shows its address.
-4. Open ToneStrand, plug your pedal into the box, and choose the box in the device menu. ToneStrand finds boxes that announce `_helrigbox` or `_tonerelay`; discovery of `_tonestrandbox` is planned, so for now you may need to add the box by its address (see [status](status.md)).
+4. Open ToneStrand, plug your pedal into the box, and choose the box in the device menu. ToneStrand finds the box by itself (it can take a few seconds, and if the box moves to another network it follows it); if it does not, add the box by its address.
 5. The first time, ToneStrand says the box **needs pairing**. Do the steps under [Pairing](#pairing) below. 
 
 About 45 seconds after the box joins your Wi-Fi, it switches its own network off. Your phone may keep showing the name for a few minutes. That is your phone's old list, not the box.

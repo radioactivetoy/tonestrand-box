@@ -14,6 +14,8 @@ Hardware: ESP32-P4 (USB host, application) plus ESP32-C6 (Wi-Fi/Bluetooth over S
 | `scripts/build.sh`, `scripts/flash.sh` | Build with this profile (and the C6 image); flash, optionally clearing the saved settings. |
 | `scripts/package-web.sh` | Split the build into the parts the web flasher writes (`web/firmware/`). |
 | `hardware/` | Only a pointer to the Helrig Box's case files: see [hardware/README.md](../../hardware/README.md). |
-| `web/` | The browser flasher (one page, `index.html`, with esptool-js and the firmware parts in `web/firmware/`), published by GitHub Pages (firmware from the latest release): see [releasing](releasing.md). Derived from the Helrig Box's flasher; its Helrig artwork, docs generator, Vercel setup and analytics were removed. |
+| `web/` | The browser flasher (one page, `index.html`, with esptool-js; the firmware parts come from the latest release when the page is deployed), published by GitHub Pages (firmware from the latest release): see [releasing](releasing.md). Derived from the Helrig Box's flasher; its Helrig artwork, docs generator, Vercel setup and analytics were removed. |
+
+| `.github/workflows/` | `release.yml` builds the firmware and publishes a release on a `v*` tag; `pages.yml` publishes `web/` with the latest release's firmware. Development builds are local. |
 
 See also: [build](build.md), [releasing](releasing.md), [setup page](setup-page.md), [measurements](measurements.md).

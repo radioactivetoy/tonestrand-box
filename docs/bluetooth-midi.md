@@ -1,4 +1,4 @@
-> **Status:** inherited from the Helrig Box guide (see [PROVENANCE](../PROVENANCE.md)) and renamed. Not yet repeated on this fork with a pedal and ToneStrand: see [status](status.md).
+> **Status:** this guide comes from the Helrig Box guide (see [PROVENANCE](../PROVENANCE.md)) and is renamed. Bluetooth MIDI has **not** been tested on this fork (the box advertises; nothing has paired with it here). The fix that makes the Bluetooth controller start is in; see [status](status.md).
 
 # Bluetooth MIDI: switch presets from OnSong or any MIDI app
 

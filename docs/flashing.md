@@ -1,6 +1,6 @@
 # Install the firmware
 
-> **Easiest:** the browser flasher at **https://radioactivetoy.github.io/tonestrand-box/** (desktop Chrome or Edge, USB-C to the board's UART port, about 2 minutes). It is experimental: see [status](status.md). To build the firmware yourself and flash it with `espflash`, read on and the [build guide](dev/build.md).
+> **Easiest:** the browser flasher at **https://radioactivetoy.github.io/tonestrand-box/** (desktop Chrome or Edge, USB-C to the board's UART port, about 2 minutes). Release 0.3.0 was flashed this way on the test board; see [status](status.md). To build the firmware yourself and flash it with `espflash`, read on and the [build guide](dev/build.md).
 
 ## What you need
 
@@ -12,7 +12,7 @@
 | **The pedal's USB cable** | The end that goes into the box must be USB-A, the box's pedal port. |
 | **A case** (optional) | A 3D-printed case: this repository has none, see [where to get one](../hardware/README.md). |
 
-Upstream tried a Helix LT and an HX Stomp; we have an HX Stomp. Other pedals and other ESP32-P4 boards are untested. Wi-Fi is **2.4 GHz only**.
+Upstream tried a Helix LT and an HX Stomp; we tested an HX Stomp. Other pedals and other ESP32-P4 boards are untested. Wi-Fi is **2.4 GHz only**.
 
 You also need [ToneStrand](https://github.com/radioactivetoy/ToneStrand) on your computer to edit the pedal. Bluetooth MIDI does not use it.
 

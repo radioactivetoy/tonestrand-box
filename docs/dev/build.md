@@ -1,6 +1,6 @@
 # Build the firmware yourself
 
-For the first release you have to: there is no web flasher for this fork yet. What to buy and troubleshooting are in [flashing.md](../flashing.md).
+For development, build locally (this page); releases are built by GitHub Actions ([releasing.md](releasing.md)). Most people should use the [browser flasher](../flashing.md) instead. What to buy and troubleshooting are in [flashing.md](../flashing.md).
 
 ## What you need
 

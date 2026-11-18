@@ -32,8 +32,11 @@ commits are the ones by `radioactivetoy`. ToneRelay was imported into `firmware/
 - **Bluetooth MIDI dead after a C6 update.** With ESP-Hosted 2.12 the Bluetooth controller has to be started explicitly before NimBLE; `midi_ble.c` now calls
   `esp_hosted_bt_controller_init()` and `esp_hosted_bt_controller_enable()`.
 - **Direct mode.** Holding BOOT for 2 to 4 seconds raises the box's own network and stops it joining Wi-Fi until restart, for editing with no router. (A press under 1.5 s still confirms pairing; upstream accepted up to 5 s.)
+- **The own network keeps its client.** While someone is connected to the box's own network, the box does not scan for saved networks in the background (a scan drops that client).
+- **Setup page:** a section to set a password for the box's own network (the firmware could, the page could not), and no scanning in direct mode.
 - **Toolchain pin.** `firmware/esp32-p4/rust-toolchain.toml` pins `nightly-2026-07-01` so the build does not break when `nightly` moves.
 - **One repository.** ToneRelay lives in `firmware/` (no submodule, no second fork to keep in step), and the scripts and docs look there.
+- **GitHub Actions:** releases are built in the cloud on a tag, and the flasher page serves the latest release (`.github/workflows/`).
 - **Web flasher** on GitHub Pages: the Helrig branding, Vercel setup, docs-site generator and PostHog analytics were removed; the page now only flashes.
 - **Documentation** for building on Windows with WSL2, flashing with `espflash`, and an honest account of what has and has not been tested.
 
