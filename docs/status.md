@@ -13,6 +13,7 @@ Last updated 18 Nov 2026. "Verified" means we did it on our board (one Waveshare
 | Wi-Fi scan | Lists networks (it was empty before the fix) |
 | Join a home 2.4 GHz network | Works; the box answers on the LAN |
 | Bluetooth LE | Advertises |
+| Flashing from the browser flasher on GitHub Pages (Chrome/Edge, COM port, 18 Nov 2026) | Works; the board then ran the page's firmware |
 | HX Stomp plugged into the box, edited from ToneStrand over Wi-Fi (18 Nov 2026) | Connects, the test page passes, live editing works |
 | ToneStrand finds and pairs the box by itself | Works (discovery can take several seconds) |
 
@@ -30,7 +31,7 @@ Helix LT and HX Stomp tested upstream; Bluetooth MIDI with an HX Stomp, an iPad,
 
 ## Not ours yet
 
-- Release binaries and a release process: the browser flasher publishes a development build (`0.1.0-dev.<commit>`) and has not yet been run end to end on a board. Treat it as experimental.
+- Release binaries and a release process: the browser flasher publishes a development (debug) build, `0.1.0-dev.<commit>`. Flashing from it works; a release build and tagged versions are still to do.
 - Pairing and discovery from ToneStrand: ToneStrand looks for `_helrigbox` and `_tonerelay` services; adding `_tonestrandbox` is planned. Until then add the box by its address.
 
 ## Planned

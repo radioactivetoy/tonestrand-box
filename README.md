@@ -24,7 +24,7 @@ that does Wi-Fi and Bluetooth).
 | Rust toolchain | Floating `nightly` (breaks with time) | **Pinned** (`nightly-2026-07-01`) |
 | Build | macOS notes | macOS notes **plus Windows/WSL2**, one repository (no submodule) |
 | Editing client | Helrig | ToneStrand |
-| Web flasher | box.helrig.com | [GitHub Pages](https://radioactivetoy.github.io/tonestrand-box/) (experimental), or `espflash` ([flashing](docs/flashing.md)) |
+| Web flasher | box.helrig.com | [GitHub Pages](https://radioactivetoy.github.io/tonestrand-box/) (verified on one board), or `espflash` ([flashing](docs/flashing.md)) |
 
 Planned, not done: editing over Bluetooth (no Wi-Fi needed). See [docs/status.md](docs/status.md).
 
