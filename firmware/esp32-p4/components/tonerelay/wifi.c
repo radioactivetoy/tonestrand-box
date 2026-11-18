@@ -36,6 +36,7 @@ static esp_timer_handle_t s_ap_timer;
 static bool s_ap_on;
 static bool s_choosing; /* a scan is running to pick which saved network to join */
 static volatile bool s_connecting; /* an attempt to join is under way (from esp_wifi_connect until an address or a disconnect) */
+static volatile bool s_direct; /* direct mode: the box keeps its own network up and does not join Wi-Fi until it restarts */
 static bool s_leaving; /* the box let go of its network on purpose: that disconnect is not a failed attempt */
 static char s_skip[33]; /* the network whose last attempt failed: tried again only when nothing else is in range */
 /* For a profile whose setup network is only for setup (setup_ap_only): how long after the box has joined a network the setup
@@ -421,6 +422,9 @@ static void wifi_worker(void *arg)
     (void)arg;
     uint8_t req;
     while (xQueueReceive(s_req_q, &req, portMAX_DELAY) == pdTRUE) {
+        if (s_direct && (req == REQ_JOIN_FRESH || req == REQ_JOIN_RETRY)) {
+            continue;
+        }
         switch (req) {
         case REQ_JOIN_FRESH:
             /* The station can report that it started more than once, a few tens of ms apart: a choice or an attempt already
@@ -463,7 +467,7 @@ static void post_req(uint8_t req)
 static void sta_retry_cb(void *arg)
 {
     (void)arg;
-    if (s_sta_configured && !s_sta_up) {
+    if (s_sta_configured && !s_sta_up && !s_direct) {
         ESP_LOGW(TAG, "STA retry %d", s_retry);
         post_req(REQ_JOIN_RETRY);
     }
@@ -642,6 +646,7 @@ int tonerelay_wifi_join(const char *ssid, const char *pass)
     if (nvs_save_sta(ssid, pw) != ESP_OK) {
         return -2;
     }
+    s_direct = false; /* joining a network is a choice to leave direct mode */
     bool was_up = s_sta_up;
     s_sta_configured = true;
     s_sta_up = false;
@@ -712,7 +717,7 @@ int tonerelay_wifi_status_json(char *buf, size_t len)
         "{\"ok\":true,\"op\":\"wifi_status\",\"setup_required\":%s,\"sta\":%s,"
         "\"sta_configured\":%s,\"ap_secured\":%s,\"catalog_ready\":%s,"
         "\"ssid\":\"%s\",\"ip\":\"%s\",\"rssi\":%d,\"ap\":\"%s\","
-        "\"ap_ip\":\"192.168.4.1\",\"mdns\":\"%s.local\",\"saved\":[%s]}",
+        "\"ap_ip\":\"192.168.4.1\",\"direct\":%s,\"mdns\":\"%s.local\",\"saved\":[%s]}",
         tonerelay_wifi_setup_required() ? "true" : "false",
         s_sta_up ? "true" : "false",
         s_sta_configured ? "true" : "false",
@@ -722,6 +727,7 @@ int tonerelay_wifi_status_json(char *buf, size_t len)
         s_sta_ip,
         s_sta_rssi,
         ap_ssid,
+        s_direct ? "true" : "false",
         tonerelay_profile()->hostname,
         saved
     );
@@ -806,6 +812,34 @@ int tonerelay_wifi_factory_reset(void)
     nvs_close(h);
     ESP_LOGW(TAG, "factory reset: Wi-Fi networks and hotspot password erased");
     return err == ESP_OK ? 0 : -1;
+}
+
+void tonerelay_wifi_direct_mode(void)
+{
+    if (s_direct) {
+        return;
+    }
+    s_direct = true;
+    if (s_sta_retry_timer) {
+        esp_timer_stop(s_sta_retry_timer);
+    }
+    if (s_ap_timer) {
+        esp_timer_stop(s_ap_timer);
+    }
+    s_choosing = false;
+    if (s_sta_up || s_connecting) {
+        s_leaving = true;
+        esp_wifi_disconnect();
+    }
+    if (!s_ap_on) {
+        start_ap();
+    }
+    ESP_LOGW(TAG, "direct mode: own network on, not joining Wi-Fi until restart");
+}
+
+bool tonerelay_wifi_direct(void)
+{
+    return s_direct;
 }
 
 bool tonerelay_wifi_setup_required(void)

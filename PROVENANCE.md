@@ -31,6 +31,7 @@ commits are the ones by `radioactivetoy`. ToneRelay was imported into `firmware/
   could scan nothing. ToneRelay already had the script that builds that C6 image (`firmware/esp32-p4/build-c6-slave.sh`, from Espressif's ESP-Hosted example), but nothing ran it. `scripts/build.sh` now runs it when the image is missing and embeds it, and the P4 updates the C6 on boot. We also made the script fail with a clear message when ESP-IDF is not sourced. See [docs/dev/c6-coprocessor.md](docs/dev/c6-coprocessor.md).
 - **Bluetooth MIDI dead after a C6 update.** With ESP-Hosted 2.12 the Bluetooth controller has to be started explicitly before NimBLE; `midi_ble.c` now calls
   `esp_hosted_bt_controller_init()` and `esp_hosted_bt_controller_enable()`.
+- **Direct mode.** Holding BOOT for 2 to 4 seconds raises the box's own network and stops it joining Wi-Fi until restart, for editing with no router. (A press under 1.5 s still confirms pairing; upstream accepted up to 5 s.)
 - **Toolchain pin.** `firmware/esp32-p4/rust-toolchain.toml` pins `nightly-2026-07-01` so the build does not break when `nightly` moves.
 - **One repository.** ToneRelay lives in `firmware/` (no submodule, no second fork to keep in step), and the scripts and docs look there.
 - **Web flasher** on GitHub Pages: the Helrig branding, Vercel setup, docs-site generator and PostHog analytics were removed; the page now only flashes.

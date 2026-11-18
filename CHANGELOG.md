@@ -11,6 +11,7 @@ Changes since the fork from the [Helrig Box](https://github.com/maveric1977/helr
 - Pinned the Rust toolchain to `nightly-2026-07-01`.
 - `build-c6-slave.sh` stops with a clear message if ESP-IDF is not sourced.
 - Browser flasher on GitHub Pages (`web/`): Helrig artwork, Vercel setup, docs generator and analytics removed; `brand/` deleted. `scripts/package-web.sh` finds the bootloader where esp-idf-sys now puts it.
+- New: direct mode (hold BOOT 2 to 4 s): own network on, no Wi-Fi joining until restart; reported as `direct` in `/api/relay`. Pairing press is now under 1.5 s. Published as `0.2.0-dev.direct` (a release build, the first on the flasher).
 - Docs rewritten for the fork: provenance, status, WSL2/Windows build, C6 co-processor notes.
 - Verified on one board: cold build in about 60 s, flash with `espflash` 4.7.0 from Windows, C6 2.12.13, Wi-Fi scan and join, BLE advertising.
 - Verified: the board flashed from the GitHub Pages flasher works.

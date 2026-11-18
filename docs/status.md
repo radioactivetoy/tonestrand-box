@@ -21,7 +21,7 @@ Last updated 18 Nov 2026. "Verified" means we did it on our board (one Waveshare
 
 - Long editing sessions, and other pedals than the HX Stomp.
 - Pairing a phone, iPad or Mac for Bluetooth MIDI, and sending MIDI to the pedal.
-- Editing through the box's own network (`192.168.4.1`) with no home Wi-Fi.
+- Direct mode (BOOT held 2 to 4 s, own network at `192.168.4.1`): added, built, not yet tested on the board. Editing through the box's own network has not been tried.
 - The setup page's remaining behaviour on the renamed profile beyond loading it.
 - An `httpd_uri handler execution failed` warning in the log: seen once, cause unknown.
 

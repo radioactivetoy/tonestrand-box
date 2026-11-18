@@ -75,6 +75,8 @@ int tonerelay_wifi_forget(void);
 int tonerelay_wifi_forget_one(const char *ssid); /* 0 forgotten, 1 not saved, negative on error; forgetting the last one is a full forget */
 int tonerelay_wifi_factory_reset(void); /* forget the Wi-Fi network and the hotspot password (the caller restarts) */
 void tonerelay_reset_button_start(void); /* hold BOOT for 5 s to run the factory reset */
+void tonerelay_wifi_direct_mode(void); /* own network up, no joining of Wi-Fi, until the next restart (BOOT held 2 to 4 s) */
+bool tonerelay_wifi_direct(void);
 bool tonerelay_wifi_setup_required(void);
 bool tonerelay_wifi_ap_secured(void);
 bool tonerelay_wifi_sta_configured(void);
@@ -93,7 +95,7 @@ void tonerelay_http_start(void);
 /* Raw relay (docs/raw-relay-protocol.md). While relay-only is on, the box opens no session of its own. */
 void tonerelay_relay_start(void);
 bool tonerelay_relay_only(void);
-void tonerelay_relay_pair_press(void); /* a short press of BOOT: confirms an open pairing window (see relay.c) */
+void tonerelay_relay_pair_press(void); /* a short press of BOOT (under 1.5 s): confirms an open pairing window (see relay.c) */
 void tonerelay_relay_token(char *out, size_t cap); /* the box's token (32 hex characters); see relay.c */
 void tonerelay_ble_start(void);
 

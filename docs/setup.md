@@ -32,6 +32,16 @@ This is pairing for ToneStrand. Bluetooth MIDI pairs separately, in the Bluetoot
 
 Pairing does not encrypt the traffic between the box and your computer, so use the box on a network you trust, like your home or your rehearsal room. See [Safety](#safety).
 
+## Direct mode: no Wi-Fi at all
+
+To edit where there is no Wi-Fi (a stage, a rehearsal room without a router), put the box in **direct mode**: **hold BOOT for 2 to 4 seconds and let go** (the board has no light, so count). The box raises its own network, `ToneStrand Box` plus six characters, at `192.168.4.1`, and stops joining Wi-Fi. Join that network from your computer and add the box in ToneStrand by the address `192.168.4.1` (automatic discovery may not work there). ToneStrand shows "Direct mode" in the box details, and the box reports `"direct":true` at `http://192.168.4.1/api/relay`.
+
+- Direct mode lasts until the box restarts: unplug it and plug it in again to go back to your Wi-Fi. Nothing is erased, so pairings and saved networks stay.
+- Choosing a network on the setup page (while connected to the box's network) also ends direct mode.
+- A press shorter than 1.5 seconds still confirms pairing, and holding for 5 seconds is still a factory reset. This timing is a ToneStrand Box change; in the Helrig Box a press up to 5 seconds confirmed pairing.
+- **Set a password for the box's network first** (on the setup page). Until you do, the network is open and the editing traffic is not encrypted, so anyone nearby could join it.
+- Your computer loses internet while it is on the box's network.
+
 ## Several Wi-Fi networks
 
 The box remembers up to three Wi-Fi networks, for example home, the rehearsal room and your phone's hotspot. Add each one from the same setup page you used for the first. If the box is on a network now, the page is at the box's address. If it has no network to join, use the box's own setup network.
@@ -44,7 +54,7 @@ The box remembers up to three Wi-Fi networks, for example home, the rehearsal ro
 
 ## Factory reset
 
-To wipe the box and start over, hold the **BOOT** button on the board for 5 seconds while the box is running. It forgets every Wi-Fi network, the password of its own setup network, its pairing token (the key that proves a device is paired) and every Bluetooth pairing. Then it restarts and brings back its setup network. It is still a ToneStrand Box, and every device has to pair again. Your iPad or Mac keeps its side of a Bluetooth pairing, so forget the box there before you connect again. On an iPad, forget it in the Bluetooth MIDI list and in Settings, Bluetooth. See [Bluetooth MIDI](bluetooth-midi.md).
+(Hold BOOT for 5 seconds. A shorter hold of 2 to 4 seconds is [direct mode](#direct-mode-no-wi-fi-at-all) instead.) To wipe the box and start over, hold the **BOOT** button on the board for 5 seconds while the box is running. It forgets every Wi-Fi network, the password of its own setup network, its pairing token (the key that proves a device is paired) and every Bluetooth pairing. Then it restarts and brings back its setup network. It is still a ToneStrand Box, and every device has to pair again. Your iPad or Mac keeps its side of a Bluetooth pairing, so forget the box there before you connect again. On an iPad, forget it in the Bluetooth MIDI list and in Settings, Bluetooth. See [Bluetooth MIDI](bluetooth-midi.md).
 
 Do not hold BOOT while you plug the power in. That starts the chip's download mode instead of the firmware.
 

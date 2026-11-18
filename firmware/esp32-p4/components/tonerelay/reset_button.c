@@ -1,7 +1,8 @@
 /*
  * Factory reset by long press: hold the board's BOOT button for 5 seconds while the box is running and it forgets its Wi-Fi
  * networks, hotspot password, token and (with Bluetooth MIDI built in) every Bluetooth pairing, then restarts and raises its open setup network, as a new box does. The catalog on flash is kept.
- * A short press does nothing, except that it confirms an open pairing window (relay.c).
+ * A short press (under 1.5 s) confirms an open pairing window (relay.c). A press of 1.5 to 5 s, acted on when it is released, switches on direct mode:
+ * the box raises its own network and stops joining Wi-Fi until the next restart (ToneStrand Box change, not in ToneRelay).
  *
  * BOOT is the chip's download-strap pin (GPIO35 on the ESP32-P4). Once the application runs it is an ordinary input. Holding
  * it while the board powers up or resets selects download mode instead, so the press has to start after the box has booted.
@@ -22,6 +23,7 @@
 #define HOLD_US (5LL * 1000 * 1000)
 #define POLL_MS 50
 #define MIN_PRESS_US (80LL * 1000) /* a shorter contact is bounce, not a press */
+#define PAIR_MAX_US (1500LL * 1000) /* a press up to this long confirms pairing; longer, up to HOLD_US, switches on direct mode */
 
 static void reset_task(void *arg)
 {
@@ -41,8 +43,11 @@ static void reset_task(void *arg)
         if (gpio_get_level(TONERELAY_RESET_GPIO) != 0) {
             if (down_at != 0) {
                 int64_t held = esp_timer_get_time() - down_at;
-                if (held >= MIN_PRESS_US && held < HOLD_US) {
+                if (held >= MIN_PRESS_US && held < PAIR_MAX_US) {
                     tonerelay_relay_pair_press(); /* a short press confirms an open pairing window */
+                } else if (held >= PAIR_MAX_US && held < HOLD_US) {
+                    ESP_LOGW(TAG, "held %d ms: direct mode", (int)(held / 1000));
+                    tonerelay_wifi_direct_mode(); /* released between 1.5 and 5 s: own network on, no router, until restart */
                 }
             }
             down_at = 0;
