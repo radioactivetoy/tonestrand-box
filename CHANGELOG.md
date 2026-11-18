@@ -13,3 +13,4 @@ Changes since the fork from the [Helrig Box](https://github.com/maveric1977/helr
 - Browser flasher on GitHub Pages (`web/`): Helrig artwork, Vercel setup, docs generator and analytics removed; `brand/` deleted. `scripts/package-web.sh` finds the bootloader where esp-idf-sys now puts it.
 - Docs rewritten for the fork: provenance, status, WSL2/Windows build, C6 co-processor notes.
 - Verified on one board: cold build in about 60 s, flash with `espflash` 4.7.0 from Windows, C6 2.12.13, Wi-Fi scan and join, BLE advertising.
+- Verified with an HX Stomp: ToneStrand connects through the box over Wi-Fi, the test page passes and live editing works.

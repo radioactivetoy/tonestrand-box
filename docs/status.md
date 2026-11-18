@@ -13,10 +13,12 @@ Last updated 18 Nov 2026. "Verified" means we did it on our board (one Waveshare
 | Wi-Fi scan | Lists networks (it was empty before the fix) |
 | Join a home 2.4 GHz network | Works; the box answers on the LAN |
 | Bluetooth LE | Advertises |
+| HX Stomp plugged into the box, edited from ToneStrand over Wi-Fi (18 Nov 2026) | Connects, the test page passes, live editing works |
+| ToneStrand finds and pairs the box by itself | Works (discovery can take several seconds) |
 
 ## Not tested yet
 
-- A pedal plugged into the box (the box reported `pedal.present: false` because none was connected). Editing with ToneStrand through the box.
+- Long editing sessions, and other pedals than the HX Stomp.
 - Pairing a phone, iPad or Mac for Bluetooth MIDI, and sending MIDI to the pedal.
 - Editing through the box's own network (`192.168.4.1`) with no home Wi-Fi.
 - The setup page's remaining behaviour on the renamed profile beyond loading it.
