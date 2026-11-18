@@ -28,7 +28,7 @@ Helix LT and HX Stomp tested upstream; Bluetooth MIDI with an HX Stomp, an iPad,
 
 ## Not ours yet
 
-- A web flasher and release binaries for this fork.
+- Release binaries and a release process: the browser flasher publishes a development build (`0.1.0-dev.<commit>`) and has not yet been run end to end on a board. Treat it as experimental.
 - Pairing and discovery from ToneStrand: ToneStrand looks for `_helrigbox` and `_tonerelay` services; adding `_tonestrandbox` is planned. Until then add the box by its address.
 
 ## Planned

@@ -3,8 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!--HEAD-->
-<link rel="stylesheet" href="/site.css">
+<title>Install the ToneStrand Box firmware</title>
+<meta name="description" content="Flash the ToneStrand Box firmware onto a Waveshare ESP32-P4-NANO from desktop Chrome or Edge. Nothing to install.">
+<meta name="theme-color" content="#060406">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="site.css">
 <style>
   * { box-sizing: border-box; }
   body { margin:0; font-size:15px; line-height:1.5; }
@@ -51,9 +54,9 @@
 </style>
 </head>
 <body data-state="idle">
-<!--HEADER-->
+<header class="site-header"><div><a class="brand" href="icon.svg" tabindex="-1"><img src="icon.svg" alt=""> ToneStrand Box</a><a href="https://github.com/radioactivetoy/tonestrand-box">Source</a><a href="https://github.com/radioactivetoy/tonestrand-box/blob/main/docs/flashing.md">Guide</a><a href="https://github.com/radioactivetoy/tonestrand-box/blob/main/PROVENANCE.md">Where this comes from</a></div></header>
 <main>
-  <h1><img src="/icon.svg" alt=""> Install the Helrig Box firmware</h1>
+  <h1><img src="icon.svg" alt=""> Install the ToneStrand Box firmware</h1>
   <p class="latest" id="latest">Latest firmware: <strong id="version">…</strong> <span id="notes"></span></p>
 
   <div id="unsupported">
@@ -105,7 +108,7 @@
       <li>Cannot connect: hold <strong>BOOT</strong>, tap <strong>RESET</strong>, release <strong>BOOT</strong>, then press Install again.</li>
       <li>Close any program that is using the board's serial port.</li>
       <li>Linux: your user must be in the <code>dialout</code> group.</li>
-      <li><a href="/docs/flashing#troubleshooting">More help</a></li>
+      <li><a href="https://github.com/radioactivetoy/tonestrand-box/blob/main/docs/flashing.md#troubleshooting">More help</a></li>
     </ul>
   </details>
 
@@ -117,15 +120,16 @@
   </details>
 
   <footer>
-    Firmware: <a href="https://github.com/mpeskett88/ToneRelay">ToneRelay</a> (MIT) with the Helrig Box profile, from <a href="https://github.com/maveric1977/helrig-box">helrig-box</a>.
-    Flashing uses <a href="https://github.com/espressif/esptool-js">esptool-js</a> (Apache-2.0). Helrig and the Helrig Box logo are Helrig's.
-    Nothing from your computer or your board is sent anywhere. The page only downloads the firmware and talks to your board.
-    The site counts visits, clicks and whether an install worked, anonymously, with PostHog in the EU. No cookies, no ads.
+    Experimental: tested on one board so far (<a href="https://github.com/radioactivetoy/tonestrand-box/blob/main/docs/status.md">status</a>).
+    Firmware: <a href="https://github.com/maveric1977/ToneRelay">ToneRelay</a> (MIT) by Mark Peskett and maveric1977, in a fork of the
+    <a href="https://github.com/maveric1977/helrig-box">Helrig Box</a> (<a href="https://github.com/radioactivetoy/tonestrand-box/blob/main/PROVENANCE.md">where this comes from</a>).
+    Flashing uses <a href="https://github.com/espressif/esptool-js">esptool-js</a> (Apache-2.0).
+    Nothing from your computer or your board is sent anywhere. The page only downloads the firmware and talks to your board. No analytics, no cookies.
   </footer>
 </main>
 
 <script type="module">
-import { ESPLoader, Transport } from "/vendor/esptool-js.js";
+import { ESPLoader, Transport } from "./vendor/esptool-js.js";
 
 const $ = id => document.getElementById(id);
 const go = $("go"), bar = $("bar"), msg = $("msg"), logEl = $("log");
@@ -136,8 +140,6 @@ const log = s => { logEl.textContent += s + "\n"; logEl.scrollTop = logEl.scroll
 const state = s => { document.body.dataset.state = s; };
 const say = (s, cls = "") => { msg.textContent = s; msg.className = cls; };
 const hex = buf => [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
-// Anonymous install counts (see the PostHog loader in <head>). Never sends the board's serial port, MAC or Wi-Fi name, and a missing or blocked PostHog changes nothing.
-const track = (name, props) => { try { if (window.posthog) window.posthog.capture(name, props); } catch (_) {} };
 
 // Links to other sites open in a new tab.
 for (const a of document.querySelectorAll('a[href^="http"]')) {
@@ -149,14 +151,14 @@ $("showlog").addEventListener("click", e => { e.preventDefault(); logEl.classLis
 let manifest = null;
 async function loadManifest() {
   try {
-    const r = await fetch("/firmware/manifest.json", { cache: "no-cache" });
+    const r = await fetch("firmware/manifest.json", { cache: "no-cache" });
     if (!r.ok) throw new Error("HTTP " + r.status);
     manifest = await r.json();
     $("version").textContent = manifest.version;
     // Link the release notes when this is a real release (a tag like v0.1.1), not a build from an untagged commit.
     if (/^v\d+\.\d+\.\d+$/.test(manifest.version)) {
       const a = document.createElement("a");
-      a.href = "https://github.com/maveric1977/helrig-box/releases/tag/" + manifest.version;
+      a.href = "https://github.com/radioactivetoy/tonestrand-box/releases/tag/" + manifest.version;
       a.textContent = "release notes"; a.target = "_blank"; a.rel = "noopener noreferrer";
       $("notes").append("· ", a);
     }
@@ -175,7 +177,7 @@ function setNext(title, text) {
   const p = $("next-text");
   p.textContent = text + " ";
   const a = document.createElement("a");
-  a.href = "/docs/setup"; a.textContent = "Setup guide";
+  a.href = "https://github.com/radioactivetoy/tonestrand-box/blob/main/docs/setup.md"; a.textContent = "Setup guide";
   p.appendChild(a);
 }
 
@@ -212,7 +214,6 @@ async function install() {
   state("working");
   let transport = null;
   const firmware = manifest && manifest.version, fresh = $("fresh").checked;
-  track("box_flash_started", { firmware, erase_saved: fresh });
   try {
     say("Choose “USB Single Serial” in the list…");
     const port = await navigator.serial.requestPort();
@@ -227,7 +228,7 @@ async function install() {
     say("Checking the firmware…");
     const fileArray = [];
     for (const p of manifest.parts) {
-      const data = new Uint8Array(await (await fetch("/firmware/" + p.file, { cache: "no-cache" })).arrayBuffer());
+      const data = new Uint8Array(await (await fetch("firmware/" + p.file, { cache: "no-cache" })).arrayBuffer());
       if (data.length !== p.size || hex(await crypto.subtle.digest("SHA-256", data)) !== p.sha256)
         throw new Error("A firmware file is damaged or incomplete (" + p.file + " failed its check). Nothing was written. Reload the page and try again.");
       fileArray.push({ data, address: p.offset });
@@ -258,26 +259,24 @@ async function install() {
     say("Installed. Waiting for the board to start…", "ok");
     const result = await readBootLog(port);
     log("Start-up result: " + JSON.stringify(result));
-    track("box_flash_succeeded", { firmware, erase_saved: fresh, boot_result: result ? result.kind : "unreadable" });
     if (result && result.kind === "joined") {
       say("Done. The board is running.", "ok");
-      setNext("All set", "Your box joined " + (result.ssid ? "“" + result.ssid + "”" : "your Wi-Fi") + " and is at " + result.ip + ". Open Helrig and choose the box in the device menu. The first time, press Pair, then press BOOT on the board once.");
+      setNext("All set", "Your box joined " + (result.ssid ? "“" + result.ssid + "”" : "your Wi-Fi") + " and is at " + result.ip + ". Open ToneStrand and choose the box in the device menu. The first time, press Pair, then press BOOT on the board once.");
     } else if (result && result.kind === "nojoin") {
       say("Installed. The board is running, but it is not on your Wi-Fi.", "bad");
-      setNext("The box cannot join " + (result.ssid ? "“" + result.ssid + "”" : "your Wi-Fi"), "Check that the network is on and is 2.4 GHz, and move the box closer to the router. To start the Wi-Fi setup again, hold the board's BOOT button for 5 seconds. That is a factory reset: it erases the saved networks and every pairing. Then join the “Helrig Box” network on your phone and open 192.168.4.1.");
+      setNext("The box cannot join " + (result.ssid ? "“" + result.ssid + "”" : "your Wi-Fi"), "Check that the network is on and is 2.4 GHz, and move the box closer to the router. To start the Wi-Fi setup again, hold the board's BOOT button for 5 seconds. That is a factory reset: it erases the saved networks and every pairing. Then join the “ToneStrand Box” network on your phone and open 192.168.4.1.");
     } else if (result && result.kind === "setup") {
       say("Done. The board is running.", "ok");
       setNext("Next: connect it to your Wi-Fi", "On your phone, join the Wi-Fi network “" + result.name + "”, open 192.168.4.1 and pick your home Wi-Fi.");
     } else {
       say("Installed. The board's start-up could not be read.", "ok");
-      setNext("Give it about 10 seconds", "Then open Helrig, or look for a Wi-Fi network called “Helrig Box” on your phone.");
+      setNext("Give it about 10 seconds", "Then open ToneStrand, or look for a Wi-Fi network called “ToneStrand Box” on your phone.");
     }
     state("done");
   } catch (e) {
     const m = e && e.name === "NotFoundError" ? "No port was chosen. Press Install and pick “USB Single Serial”." : (e && e.message) || String(e);
     say(m + " If it stopped halfway, run the install again.", "bad");
     log("Error: " + m);
-    track("box_flash_failed", { firmware, erase_saved: fresh, error: String(m).slice(0, 120), cancelled: !!(e && e.name === "NotFoundError") });
     state("error");
   } finally {
     try { if (transport) await transport.disconnect(); } catch (_) {}

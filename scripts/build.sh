@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Builds the Helrig Box firmware: ToneRelay's ESP32-P4 firmware with this repository's profile (names, setup page, defaults).
+# Builds the ToneStrand Box firmware: ToneRelay's ESP32-P4 firmware with this repository's profile (names, setup page, defaults).
 #
 #   scripts/build.sh            debug build (what the bench uses)
 #   scripts/build.sh --release  release build

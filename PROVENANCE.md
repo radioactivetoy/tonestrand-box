@@ -20,7 +20,7 @@ commits are the ones by `radioactivetoy`. ToneRelay was imported into `firmware/
 
 - All of the firmware: the relay, the USB host code for the pedal, the Wi-Fi/SoftAP/mDNS handling, the BLE MIDI module, the protocol. (`firmware/`, MIT.)
 - The idea and design of the box, the profile mechanism, the setup page's structure, the pairing-by-BOOT-button design, the guides and the measurements in `docs/`.
-- The web flasher in `web/` and the artwork in `brand/` (not ours to reuse, see [NOTICE.md](NOTICE.md)).
+- The original web flasher (our `web/index.html` is derived from it) and the artwork, which we removed (not ours to reuse, see [NOTICE.md](NOTICE.md)).
 - The hardware case adaptation, itself an adaptation of a CC BY 4.0 model by MartinFaustMayer (see [hardware/casing/ATTRIBUTION.md](hardware/casing/ATTRIBUTION.md)).
 - `firmware/vendor/tonepush`: protocol crates from [crmne/tonepush](https://github.com/crmne/tonepush) (MIT), bundled with ToneRelay.
 
@@ -33,15 +33,16 @@ commits are the ones by `radioactivetoy`. ToneRelay was imported into `firmware/
   `esp_hosted_bt_controller_init()` and `esp_hosted_bt_controller_enable()`.
 - **Toolchain pin.** `firmware/esp32-p4/rust-toolchain.toml` pins `nightly-2026-07-01` so the build does not break when `nightly` moves.
 - **One repository.** ToneRelay lives in `firmware/` (no submodule, no second fork to keep in step), and the scripts and docs look there.
+- **Web flasher** on GitHub Pages: the Helrig branding, Vercel setup, docs-site generator and PostHog analytics were removed; the page now only flashes.
 - **Documentation** for building on Windows with WSL2, flashing with `espflash`, and an honest account of what has and has not been tested.
 
 Everything else is unchanged and still theirs. If you only want the original, use the originals; if a fix here is useful to them, it is MIT and theirs to take.
 
 ## What we did not do
 
-- We did not ask for, and do not have, permission to use the **Helrig** name or logo. This product does not use them as its identity. A few files inherited from the fork still
-  contain them (`brand/`, the debossed lid in the case files, `web/`); they are marked in [NOTICE.md](NOTICE.md) and are being replaced or removed.
-- The **web flasher** at box.helrig.com belongs to the Helrig project. Firmware built here is not published there.
+- We did not ask for, and do not have, permission to use the **Helrig** name or logo. This product does not use them as its identity. We removed them from the software, the
+  flasher and the docs (`brand/` is deleted). The only remaining trace is the debossed Helrig mark in the lid STL files, noted in [NOTICE.md](NOTICE.md); it will be replaced.
+- The **web flasher** at box.helrig.com belongs to the Helrig project. Ours is a separate page on GitHub Pages, derived from theirs, and we do not use their domain, hosting or analytics.
 - We have not been endorsed by Helrig, Mark Peskett, MartinFaustMayer, Line 6 or Yamaha Guitar Group.
 
 ## Keeping up with upstream

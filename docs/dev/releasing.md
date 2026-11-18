@@ -1,7 +1,20 @@
 # Releasing
 
-There is no release process for this fork yet: no web flasher is deployed and no binaries are published. To share a build, run `scripts/build.sh --release` and publish `firmware/esp32-p4/target/riscv32imafc-esp-espidf/release/hxbridge-p4` together with `firmware/esp32-p4/partitions.csv` and the `espflash` command from [flashing.md](../flashing.md).
+The flasher is the static site in `web/`, published by GitHub Pages at **https://radioactivetoy.github.io/tonestrand-box/**. `.github/workflows/pages.yml` uploads `web/` as it is on every push to `main` that touches it (no build step). The firmware parts the page flashes are committed in `web/firmware/`.
 
-## Inherited web flasher (not used)
+## One-time setup
 
-The Helrig Box releases a browser flasher at box.helrig.com: `web/` is a static site built by Vercel (`scripts/package-web.sh --release` writes the bootloader, partition table and app parts; `web/fetch-firmware.sh` downloads them from a GitHub release; `web/build-docs.mjs` turns the docs into pages). That site, its domain and its Vercel project belong to the Helrig project, and `web/` still carries their branding. If we ever publish our own flasher it needs our own domain, project, branding and a review of these files. Writing addresses used by that flasher: bootloader 0x2000, partition table 0x8000, app 0x10000; "start as a new box" also zeroes the settings area at 0x9000 (0x6000 bytes).
+Repository Settings, Pages, Source: **GitHub Actions**. (Or: `gh api -X POST repos/radioactivetoy/tonestrand-box/pages -f build_type=workflow`.)
+
+## Each release
+
+1. Build a release image in WSL or Linux: `scripts/build.sh --release` ([build.md](build.md)).
+2. Package it: `BOX_VERSION=0.1.0 scripts/package-web.sh --release`. This writes `web/firmware/{bootloader,partition-table,app}.bin` and `manifest.json` (parts with sizes and SHA-256; the page checks them before it writes anything). Without `BOX_VERSION` the version is `0.1.0-dev.<commit>`.
+3. Try it locally: `cd web && python3 -m http.server 8765 --bind 127.0.0.1`, open `http://127.0.0.1:8765/` in Chrome or Edge and flash a board. Web Serial works on `localhost` and on https, not on plain http from another host.
+4. Commit `web/firmware`, tag it (`git tag v0.1.0`) and push. Pages deploys. A tag named `vX.Y.Z` makes the page link to the GitHub release notes, so create the release too (`gh release create v0.1.0`).
+
+The page writes the bootloader (0x2000), the partition table (0x8000) and the app (0x10000) only, so an update keeps the saved Wi-Fi network. "Start as a new box" also writes empty data over the settings area (0x9000, 0x6000 bytes).
+
+## What the page does and does not do
+
+It runs entirely in the browser with [esptool-js](https://github.com/espressif/esptool-js) (`web/vendor`, Apache-2.0). It sends nothing anywhere: no analytics, no cookies. (The inherited Helrig page used PostHog; that was removed.) The fonts in `web/fonts` are SIL OFL.

@@ -2,8 +2,7 @@
  * The ToneStrand Box profile: what makes a ToneRelay build a ToneStrand Box (a fork of the Helrig Box profile). It is compiled into ToneRelay's firmware by scripts/build.sh
  * (TONERELAY_PROFILE_DIR points here); see ToneRelay's esp32-p4/components/tonerelay/profiles/README.md for the mechanism.
  *
- * The names follow Helrig's brand guide: the hardware is "Helrig Box", two words. A Wi-Fi network name may contain a space; a host
- * name and a service type cannot, so those read helrigbox / _helrigbox.
+ * A Wi-Fi network name may contain a space; a host name and a service type cannot, so those read tonestrandbox / _tonestrandbox.
  */
 #include "tonerelay.h"
 

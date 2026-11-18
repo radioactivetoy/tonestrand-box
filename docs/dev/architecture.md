@@ -12,8 +12,8 @@ Hardware: ESP32-P4 (USB host, application) plus ESP32-C6 (Wi-Fi/Bluetooth over S
 | `profile/profile.c` | The box's names and defaults. |
 | `profile/setup.html` | The setup and status page the box serves (no network requests, wordmark inline). |
 | `scripts/build.sh`, `scripts/flash.sh` | Build with this profile (and the C6 image); flash, optionally clearing the saved settings. |
-| `scripts/package-web.sh` | Split the build into the parts a web flasher writes (inherited; no flasher is deployed for this fork). |
+| `scripts/package-web.sh` | Split the build into the parts the web flasher writes (`web/firmware/`). |
 | `hardware/casing/` | The 3D-printable case, an adaptation of a CC BY 4.0 model: see [NOTICE.md](../../NOTICE.md). |
-| `web/`, `brand/` | Inherited from the Helrig Box: its web flasher and docs site, and its artwork. Not deployed or used by us; being replaced or removed. |
+| `web/` | The browser flasher (one page, `index.html`, with esptool-js and the firmware parts in `web/firmware/`), published by GitHub Pages: see [releasing](releasing.md). Derived from the Helrig Box's flasher; its Helrig artwork, docs generator, Vercel setup and analytics were removed. |
 
 See also: [build](build.md), [releasing](releasing.md), [setup page](setup-page.md), [measurements](measurements.md).

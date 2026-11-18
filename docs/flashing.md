@@ -1,6 +1,6 @@
 # Install the firmware
 
-> There is no web flasher for ToneStrand Box yet (the one at box.helrig.com belongs to the Helrig project and flashes Helrig's build). Build the firmware yourself ([build guide](dev/build.md), it takes a few minutes) and flash it with `espflash`.
+> **Easiest:** the browser flasher at **https://radioactivetoy.github.io/tonestrand-box/** (desktop Chrome or Edge, USB-C to the board's UART port, about 2 minutes). It is experimental: see [status](status.md). To build the firmware yourself and flash it with `espflash`, read on and the [build guide](dev/build.md).
 
 ## What you need
 

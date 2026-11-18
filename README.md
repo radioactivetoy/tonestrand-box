@@ -24,7 +24,7 @@ that does Wi-Fi and Bluetooth).
 | Rust toolchain | Floating `nightly` (breaks with time) | **Pinned** (`nightly-2026-07-01`) |
 | Build | macOS notes | macOS notes **plus Windows/WSL2**, one repository (no submodule) |
 | Editing client | Helrig | ToneStrand |
-| Web flasher | box.helrig.com | **None yet**: flash with `espflash` ([flashing](docs/flashing.md)) |
+| Web flasher | box.helrig.com | [GitHub Pages](https://radioactivetoy.github.io/tonestrand-box/) (experimental), or `espflash` ([flashing](docs/flashing.md)) |
 
 Planned, not done: editing over Bluetooth (no Wi-Fi needed). See [docs/status.md](docs/status.md).
 
@@ -38,7 +38,7 @@ network.** Guides inherited from the Helrig Box and not yet repeated on this for
 
 1. **Get the parts.** The board, a USB-C cable that carries data, a USB-C power source, and the cable you use to connect your pedal to a computer.
    A [3D-printable case](hardware/casing/README.md) is optional. [Full list](docs/flashing.md#what-you-need).
-2. **Build and flash the firmware** with `scripts/build.sh` and `espflash`. [Flashing](docs/flashing.md) · [Build from source (Windows/WSL2, macOS, Linux)](docs/dev/build.md).
+2. **Flash the firmware** from your browser (desktop Chrome or Edge) at **https://radioactivetoy.github.io/tonestrand-box/**, or build it yourself with `scripts/build.sh` and flash it with `espflash`. [Flashing](docs/flashing.md) · [Build from source (Windows/WSL2, macOS, Linux)](docs/dev/build.md).
 3. **Set it up.** Join the Wi-Fi network the box makes (`ToneStrand Box` plus six characters), open `http://192.168.4.1` and pick your home Wi-Fi.
    [Setup and factory reset](docs/setup.md).
 4. **Use it.** Plug the pedal into the box's **USB-A** port, open ToneStrand and pick the box. Pairing is by pressing **BOOT** on the board once.
@@ -58,4 +58,4 @@ The box works on 2.4 GHz Wi-Fi only and remembers up to three networks. Pairing 
 ## Licence
 
 Code and docs are MIT ([LICENSE](LICENSE), copyright Yashar Moradi; the imported firmware in `firmware/` keeps its own MIT licence). The 3D case is
-CC BY 4.0. The Helrig name and artwork are not ours and not covered; see [NOTICE.md](NOTICE.md). Not affiliated with Line 6 or Yamaha Guitar Group.
+CC BY 4.0. The Helrig name and artwork are not ours and not covered (we removed them from the software; see [NOTICE.md](NOTICE.md) for what remains in the case files). Not affiliated with Line 6 or Yamaha Guitar Group.

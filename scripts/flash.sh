@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Flashes the Helrig Box firmware built by scripts/build.sh.
+# Flashes the ToneStrand Box firmware built by scripts/build.sh.
 #
 #   scripts/flash.sh -p /dev/ttyACM0            flash the application (the saved Wi-Fi network is kept)
 #   scripts/flash.sh -p /dev/ttyACM0 --fresh    also clear the saved settings, so the box starts like a new one

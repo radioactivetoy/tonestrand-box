@@ -11,7 +11,9 @@ The firmware in this product is [ToneRelay](https://github.com/maveric1977/ToneR
 authors), built with the profile in `profile/`. ToneRelay's source is included in `firmware/`, with its licence
 file. The relay protocol the editor speaks is ToneRelay's `docs/raw-relay-protocol.md`. `firmware/vendor/tonepush` is [crmne/tonepush](https://github.com/crmne/tonepush) (MIT), bundled with ToneRelay. Our changes to ToneRelay are listed in PROVENANCE.md.
 
-## The web flasher (inherited, not used)
+## The web flasher
+
+`web/index.html` is derived from the Helrig Box's flasher page (MIT); the Helrig branding and the analytics it carried were removed.
 
 `web/vendor/esptool-js.js` is [esptool-js](https://github.com/espressif/esptool-js) 0.7.0 (Apache-2.0, Copyright Espressif Systems; the licence is in
 `web/vendor/LICENSE-esptool-js`). The file is Espressif's published bundle, unmodified, and it includes pako (MIT and Zlib) and atob-lite (MIT).
@@ -31,9 +33,9 @@ choices in `web/site.css` follow helrig.com's dark theme.
 
 ## Helrig name and logo
 
-"Helrig", "Helrig Box" and the Helrig logo and badge (the files in `brand/`, the diagrams, `web/` and the logo in the case files) are Helrig's and are
-**not** covered by the MIT licence. They are in this repository only because it is a fork and have not been removed yet. ToneStrand Box does not use them as its identity,
-and you must not use them for another product. They will be replaced or removed.
+"Helrig", "Helrig Box" and the Helrig logo and badge are Helrig's and are **not** covered by the MIT licence. We removed them from the software, the web flasher and the docs.
+The only place they remain is the lid files in `hardware/casing/`, where the Helrig symbol and wordmark are debossed into the model; see `hardware/casing/ATTRIBUTION.md`.
+Do not use them for another product.
 
 ## Line 6
 
