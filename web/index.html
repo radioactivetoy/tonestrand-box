@@ -115,6 +115,13 @@
   <details>
     <summary>Options: start as a new box</summary>
     <label><input type="checkbox" id="fresh"> <span>Also erase the saved Wi-Fi networks and pairings, so you set the box up from scratch. Leave this off to update a box and keep everything.</span></label>
+    <label><span>Speed:
+      <select id="speed">
+        <option value="115200">115200 (slow, the safe default)</option>
+        <option value="460800">460800 (experimental)</option>
+        <option value="921600">921600 (experimental)</option>
+      </select><br>
+      <span class="muted">A faster speed can cut the install from about 2 minutes to well under one. If it fails or stalls, run the install again at 115200. Nothing is damaged by a failed try: the files are checked before they are written, and you can always install again.</span></span></label>
     <p class="muted"><a href="#" id="showlog">Show details</a></p>
     <div id="log"></div>
   </details>
@@ -134,7 +141,7 @@ import { ESPLoader, Transport } from "./vendor/esptool-js.js";
 const $ = id => document.getElementById(id);
 const go = $("go"), bar = $("bar"), msg = $("msg"), logEl = $("log");
 const NVS = { address: 0x9000, size: 0x6000 };   // the saved settings; partitions.csv
-const BAUD = 115200;                             // a baud change resets this board mid-flash (measured)
+const BAUD = 115200;                             // connecting and reading the boot log. The Helrig Box page measured that a baud change resets this board mid-flash, so a faster flash speed is an option (#speed), off by default
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const log = s => { logEl.textContent += s + "\n"; logEl.scrollTop = logEl.scrollHeight; };
 const state = s => { document.body.dataset.state = s; };
@@ -219,7 +226,9 @@ async function install() {
     const port = await navigator.serial.requestPort();
     transport = new Transport(port, false);
     const term = { clean() {}, writeLine: s => { if (!/Read Register/.test(s)) log(s); }, write: s => log(s) };
-    const loader = new ESPLoader({ transport, baudrate: BAUD, romBaudrate: BAUD, terminal: term });
+    const speed = Number($("speed").value) || BAUD;
+    log("Flash speed: " + speed);
+    const loader = new ESPLoader({ transport, baudrate: speed, romBaudrate: BAUD, terminal: term });
 
     say("Connecting…");
     const chip = await loader.main();
