@@ -156,9 +156,9 @@ async function loadManifest() {
     manifest = await r.json();
     $("version").textContent = manifest.version;
     // Link the release notes when this is a real release (a tag like v0.1.1), not a build from an untagged commit.
-    if (/^v\d+\.\d+\.\d+$/.test(manifest.version)) {
+    if (/^\d+\.\d+\.\d+$/.test(manifest.version)) {   // the manifest says 0.2.1, the tag is v0.2.1
       const a = document.createElement("a");
-      a.href = "https://github.com/radioactivetoy/tonestrand-box/releases/tag/" + manifest.version;
+      a.href = "https://github.com/radioactivetoy/tonestrand-box/releases/tag/v" + manifest.version;
       a.textContent = "release notes"; a.target = "_blank"; a.rel = "noopener noreferrer";
       $("notes").append("· ", a);
     }
