@@ -1,0 +1,9 @@
+[workspace]
+resolver = "2"
+members = ["crates/hxbridge-usb"]
+exclude = ["vendor/tonepush", "esp32-p4"]
+
+[workspace.package]
+edition = "2021"
+license = "MIT"
+rust-version = "1.87"

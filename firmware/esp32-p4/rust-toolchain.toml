@@ -1,0 +1,5 @@
+[toolchain]
+# nightly-2026-10-25 and nightly-2026-11-12 fail compiling std for riscv32imafc-esp-espidf
+# (no field st_atime on libc::stat); this date builds. Move it forward only after trying a build.
+channel = "nightly-2026-07-01"
+components = ["rust-src"]
