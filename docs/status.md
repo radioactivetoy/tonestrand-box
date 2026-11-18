@@ -13,6 +13,8 @@ Last updated 18 Nov 2026. "Verified" means we did it on our board (one Waveshare
 | Wi-Fi scan | Lists networks (it was empty before the fix) |
 | Join a home 2.4 GHz network | Works; the box answers on the LAN |
 | Bluetooth LE | Advertises |
+| Direct mode (BOOT held 2 to 4 s) with a secured own network (18 Nov 2026, 0.2.1) | Windows joins `ToneStrand Box e7f7c4` with the password, ToneStrand connects to the HX Stomp through the box, the test page passes and live editing works with no router. A first test (0.2.0) dropped the connection while the setup page was open, because it scanned for Wi-Fi; fixed in 0.2.1 |
+| Setting the box's network password from the setup page | Works |
 | Flashing from the browser flasher on GitHub Pages (Chrome/Edge, COM port, 18 Nov 2026) | Works; the board then ran the page's firmware |
 | HX Stomp plugged into the box, edited from ToneStrand over Wi-Fi (18 Nov 2026) | Connects, the test page passes, live editing works |
 | ToneStrand finds and pairs the box by itself | Works (discovery can take several seconds) |
@@ -21,7 +23,6 @@ Last updated 18 Nov 2026. "Verified" means we did it on our board (one Waveshare
 
 - Long editing sessions, and other pedals than the HX Stomp.
 - Pairing a phone, iPad or Mac for Bluetooth MIDI, and sending MIDI to the pedal.
-- Direct mode (BOOT held 2 to 4 s, own network at `192.168.4.1`): the network comes up, ToneStrand finds and sees the box, `/api/relay` reports `direct: true`. A first test dropped the connection while the setup page was open (it scanned for Wi-Fi); fixed in 0.2.1, not yet retested. Editing through the box's own network has not been tried.
 - The setup page's remaining behaviour on the renamed profile beyond loading it.
 - An `httpd_uri handler execution failed` warning in the log: seen once, cause unknown.
 
