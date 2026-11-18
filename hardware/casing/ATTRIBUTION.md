@@ -24,3 +24,7 @@ All other geometry of the original is kept: the openings in the walls (USB ports
 The STL files and preview images in this repository are shared under the same licence as the original, CC BY 4.0. You may share and adapt them, including commercially, if you give credit to the original author as above, link to the licence, and indicate if you made changes.
 
 The original author has not endorsed this adaptation.
+
+## Note for the ToneStrand Box fork
+
+The Helrig symbol and wordmark debossed in the lid (change 2 above) were made by the Helrig Box project and remain Helrig's; they are inherited here and will be replaced with our own mark. Until then, do not print these lids as ToneStrand products without removing or covering the Helrig branding.

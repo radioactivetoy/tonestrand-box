@@ -1,50 +1,61 @@
-<p align="center">
-  <img src="brand/helrig-box-icon.svg" alt="" width="120">
-</p>
+# ToneStrand Box
 
-<h1 align="center">Helrig Box</h1>
+A small box that puts your Helix or HX pedal on Wi-Fi (and Bluetooth MIDI), so [ToneStrand](https://github.com/radioactivetoy/ToneStrand) can edit it without a cable to your computer.
 
-<p align="center">A small box that puts your Helix or HX pedal on your Wi-Fi, so <a href="https://helrig.com">Helrig</a> can edit it without a cable to your computer.</p>
+> **This is a fork.** It starts from the [Helrig Box](https://github.com/maveric1977/helrig-box) by maveric1977 (Yashar Moradi), and its firmware is
+> [ToneRelay](https://github.com/maveric1977/ToneRelay) by Mark Peskett and maveric1977. Almost all of the hard work is theirs.
+> What we changed, and what is still theirs, is written down in [PROVENANCE.md](PROVENANCE.md). This project is not Helrig, is not made by
+> Helrig, and is not endorsed by them.
 
-<p align="center">
-  <img src="hardware/casing/helrig-box-photo.webp" alt="The finished Helrig Box: a small black 3D-printed case with the four-colour Helrig symbol on top and HELRIG in white on the side" width="480">
-</p>
+The pedal plugs into the box by USB. The box joins your Wi-Fi (or makes its own network). ToneStrand finds it and edits the pedal as it would over a cable.
+For editing, the box only passes the pedal's USB signal along; it never reads or changes your presets. It is also a Bluetooth MIDI device, so a setlist
+app such as OnSong can change presets on the pedal.
 
-![Helrig on your computer, connected over Wi-Fi to the Helrig Box, connected by USB to your Helix or HX pedal](brand/diagrams/helrig-box-diagram-dark.svg)
+Hardware: a [Waveshare ESP32-P4-NANO](https://www.waveshare.com/esp32-p4-nano.htm?sku=29026) (an ESP32-P4 that talks to the pedal over USB-A, plus an ESP32-C6
+that does Wi-Fi and Bluetooth).
 
-The pedal plugs into the box by USB. The box joins your Wi-Fi. Helrig finds it and edits the pedal as it would over a cable. For editing, the box only passes the pedal's USB signal along. It never reads or changes your presets.
+## What is different from the Helrig Box
 
-It also works as a Bluetooth MIDI device, so a setlist app such as OnSong can change presets on the pedal. The box passes the MIDI messages it receives on to the pedal, and from v1.2.0 it sends the pedal's own preset and snapshot changes back to the app. [Bluetooth MIDI guide](docs/bluetooth-midi.md).
+| | Helrig Box | ToneStrand Box |
+|---|---|---|
+| Names | `Helrig Box xxxxxx`, `helrigbox.local` | `ToneStrand Box xxxxxx`, `tonestrandbox.local`, mDNS service `_tonestrandbox` |
+| Wi-Fi scan on the P4 board | Empty list unless the C6 radio was flashed by hand | **Fixed**: `scripts/build.sh` builds and embeds the C6 firmware |
+| Bluetooth MIDI after a C6 update | Dead (controller never started) | **Fixed**: the Bluetooth controller is started before NimBLE |
+| Rust toolchain | Floating `nightly` (breaks with time) | **Pinned** (`nightly-2026-07-01`) |
+| Build | macOS notes | macOS notes **plus Windows/WSL2**, one repository (no submodule) |
+| Editing client | Helrig | ToneStrand |
+| Web flasher | box.helrig.com | **None yet**: flash with `espflash` ([flashing](docs/flashing.md)) |
 
-Tried so far with a **Helix LT** and an **HX Stomp**. Bluetooth MIDI has only been tried with an HX Stomp. Connecting to a pedal in Helrig needs Helrig Connect or Helrig Pro.
+Planned, not done: editing over Bluetooth (no Wi-Fi needed). See [docs/status.md](docs/status.md).
 
-[Watch the Helrig Box video on YouTube](https://youtu.be/9akt9vG8okY).
+## Status, honestly
+
+Tested on one board: the firmware builds from a cold start, flashes, boots, the C6 reports firmware 2.12.13, the Wi-Fi scan lists networks, the box joins
+Wi-Fi, and Bluetooth LE advertises. **Not yet tested with a pedal plugged in, with a phone or tablet paired over Bluetooth MIDI, or from the box's own
+network.** Guides inherited from the Helrig Box and not yet repeated on this fork say so. Read [docs/status.md](docs/status.md) before relying on it.
 
 ## Get one running
 
-1. **Get the parts.** A [Waveshare ESP32-P4-NANO](https://www.waveshare.com/esp32-p4-nano.htm?sku=29026) board ([wiki](https://www.waveshare.com/wiki/ESP32-P4-NANO)), a USB-C cable that carries data, a USB-C power source,
-   and the USB cable you use to connect your pedal to a computer. A [3D-printable case](hardware/casing/README.md) is optional. [Full list](docs/flashing.md#what-you-need).
-2. **Install the firmware** from your browser (desktop Chrome or Edge), with nothing to install: **[box.helrig.com/flash](https://box.helrig.com/flash)**.
-   It takes about 2 minutes. [Step by step, drivers and troubleshooting](docs/flashing.md).
-3. **Set it up.** On your phone, join the Wi-Fi network the box makes. It is called **Helrig Box** plus six characters. Open `http://192.168.4.1` and pick your home Wi-Fi.
+1. **Get the parts.** The board, a USB-C cable that carries data, a USB-C power source, and the cable you use to connect your pedal to a computer.
+   A [3D-printable case](hardware/casing/README.md) is optional. [Full list](docs/flashing.md#what-you-need).
+2. **Build and flash the firmware** with `scripts/build.sh` and `espflash`. [Flashing](docs/flashing.md) · [Build from source (Windows/WSL2, macOS, Linux)](docs/dev/build.md).
+3. **Set it up.** Join the Wi-Fi network the box makes (`ToneStrand Box` plus six characters), open `http://192.168.4.1` and pick your home Wi-Fi.
    [Setup and factory reset](docs/setup.md).
-4. **Use it.** Plug your pedal into the box's **USB-A** port, open Helrig, and pick the box in the device menu. The first time, press **Pair** in Helrig, then press **BOOT** on the board once.
-5. **Switch presets from a setlist app.** Connect the box as a Bluetooth MIDI device on your iPad or Mac, then pick it in your app. [Steps](docs/bluetooth-midi.md).
+4. **Use it.** Plug the pedal into the box's **USB-A** port, open ToneStrand and pick the box. Pairing is by pressing **BOOT** on the board once.
+5. **Switch presets from a setlist app** over Bluetooth MIDI: [Bluetooth MIDI](docs/bluetooth-midi.md).
 
-The box works on 2.4 GHz Wi-Fi only. It remembers up to three networks, so home, the rehearsal room and your phone's hotspot can all work. Each computer or tablet pairs with the box once, by pressing the BOOT button on the board. Pairing needs Helrig 1.5.3 or later. It does not encrypt the traffic, so use the box on a network you trust. Bluetooth MIDI pairs separately, in your iPad's or Mac's own Bluetooth list, and that link is encrypted.
+The box works on 2.4 GHz Wi-Fi only and remembers up to three networks. Pairing does not encrypt the traffic, so use it on a network you trust.
 
-## Questions and problems
+## Documentation
 
-Check [Troubleshooting](docs/flashing.md#troubleshooting) first. If that does not help, [open an issue](https://github.com/maveric1977/helrig-box/issues) and say which
-pedal, which computer and browser, and what the page or the box did.
-
-## For developers
-
-The firmware is [ToneRelay](https://github.com/mpeskett88/ToneRelay), an open-source Wi-Fi relay for Helix pedals by Mark Peskett, built with a small
-Helrig Box profile (its names, setup page and defaults). This repository holds that profile, the web flasher and the docs.
-[How it fits together](docs/dev/architecture.md) · [Build from source](docs/dev/build.md) · [Releasing](docs/dev/releasing.md) · [What has been measured](docs/dev/measurements.md)
+- [PROVENANCE.md](PROVENANCE.md): where the project comes from, who did what, what we changed
+- [NOTICE.md](NOTICE.md): licences and credits for everything included
+- [CHANGELOG.md](CHANGELOG.md): changes since the fork
+- [docs/status.md](docs/status.md): what is tested, what is not, what is planned
+- [docs/flashing.md](docs/flashing.md) · [docs/setup.md](docs/setup.md) · [docs/bluetooth-midi.md](docs/bluetooth-midi.md)
+- Developers: [architecture](docs/dev/architecture.md) · [build](docs/dev/build.md) · [the C6 co-processor](docs/dev/c6-coprocessor.md) · [releasing](docs/dev/releasing.md) · [measurements](docs/dev/measurements.md) · [setup page](docs/dev/setup-page.md)
 
 ## Licence
 
-The code and docs are MIT ([LICENSE](LICENSE)). The Helrig name, the Helrig Box logo and the icon are Helrig's and are not covered by it; see
-[NOTICE.md](NOTICE.md), which also lists the other software used. Helrig and the Helrig Box are not affiliated with Line 6 or Yamaha Guitar Group.
+Code and docs are MIT ([LICENSE](LICENSE), copyright Yashar Moradi; the imported firmware in `firmware/` keeps its own MIT licence). The 3D case is
+CC BY 4.0. The Helrig name and artwork are not ours and not covered; see [NOTICE.md](NOTICE.md). Not affiliated with Line 6 or Yamaha Guitar Group.

@@ -1,61 +1,47 @@
 # Install the firmware
 
+> There is no web flasher for ToneStrand Box yet (the one at box.helrig.com belongs to the Helrig project and flashes Helrig's build). Build the firmware yourself ([build guide](dev/build.md), it takes a few minutes) and flash it with `espflash`.
+
 ## What you need
 
 | Part | Notes |
 |---|---|
-| **[Waveshare ESP32-P4-NANO](https://www.waveshare.com/esp32-p4-nano.htm?sku=29026)** ([wiki](https://www.waveshare.com/wiki/ESP32-P4-NANO)) | The board this firmware is built and tested on. Its main chip, an ESP32-P4, talks to the pedal through the **USB-A** port. A second chip on the board, an ESP32-C6, does the Wi-Fi. Waveshare sells it in several kits. Order the **Basic Kit** (the board and a speaker). The box does not use the camera, PoE or display kits. |
+| **[Waveshare ESP32-P4-NANO](https://www.waveshare.com/esp32-p4-nano.htm?sku=29026)** ([wiki](https://www.waveshare.com/wiki/ESP32-P4-NANO)) | The board this firmware is built and tested on. Its main chip, an ESP32-P4, talks to the pedal through the **USB-A** port. A second chip, an ESP32-C6, does Wi-Fi and Bluetooth ([details](dev/c6-coprocessor.md)). Order the **Basic Kit**; the camera, PoE and display kits are not used. |
 | **A USB-C cable that carries data** | For power and flashing. A charge-only cable will not show a serial device. |
 | **A USB-C power source** | A 5 V phone charger or a computer port. |
-| **The pedal's USB cable** | The cable you use to connect the pedal to a computer. The end that goes into the box must be USB-A, because that is the box's pedal port. Check what your cable has on that end. |
-| **A case** (optional) | A 3D-printable [lid and bottom](../hardware/casing/README.md), in a single-colour and a multi-colour version. Not test-printed yet. |
+| **The pedal's USB cable** | The end that goes into the box must be USB-A, the box's pedal port. |
+| **A case** (optional) | A 3D-printable [lid and bottom](../hardware/casing/README.md). |
 
-So far it has been tried with a Helix LT and an HX Stomp. Other Helix and HX pedals have not been tried. The Wi-Fi is **2.4 GHz only**, so the setup page does not list
-5 GHz networks. Other ESP32-P4 boards are untested.
+Upstream tried a Helix LT and an HX Stomp; we have an HX Stomp. Other pedals and other ESP32-P4 boards are untested. Wi-Fi is **2.4 GHz only**.
 
-You also need [Helrig](https://helrig.com) on your computer to edit the pedal. Connecting to a pedal needs Helrig Connect or Helrig Pro. Bluetooth MIDI does not use Helrig.
+You also need [ToneStrand](https://github.com/radioactivetoy/ToneStrand) on your computer to edit the pedal. Bluetooth MIDI does not use it.
 
-## Flash it from your browser
+## Flash with espflash
 
-1. Use desktop **Chrome** or **Edge** (Windows, macOS or Linux). Safari, Firefox and phones cannot do this.
-2. Connect the board's **UART USB-C** port to your computer. The pedal does not need to be plugged in yet.
-3. Open the web flasher: **https://box.helrig.com/flash**
-4. Press **Install** and choose **USB Single Serial** in the list. It may show up as `usbmodem`, `ttyACM` or a COM port.
-5. Wait about **2 minutes** and keep the tab open and the cable connected. The board restarts by itself.
+1. Build the firmware: see [build.md](dev/build.md). The result is the file `hxbridge-p4` plus the partition table `firmware/esp32-p4/partitions.csv`.
+2. Connect the board's **UART USB-C** port to your computer and find the port (a COM port on Windows, `/dev/ttyACM0` on Linux, `/dev/cu.usbmodem...` on macOS).
+3. Flash (the partition table is needed, otherwise the layout is wrong and the catalog partition is not created):
 
-This build also includes Bluetooth MIDI. To add it to a box you already have, flash it the same way.
+```bash
+espflash flash -p COM5 --chip esp32p4 --partition-table partitions.csv --partition-table-offset 0x8000 hxbridge-p4
+```
 
-Installing over a box you already set up keeps its Wi-Fi networks and pairings, so you can update without setting it up again. To wipe those too, open **Options** on the flasher page and tick **Start as a new box** before you press Install. Every device then has to pair again.
+On Linux or macOS from the repository, `scripts/flash.sh -p <port>` does the same; add `--fresh` to also clear the saved Wi-Fi networks and pairings. Install espflash with `cargo install espflash` (or download the release for Windows). We used 4.7.0.
 
-Then continue with [Setting up a Helrig Box](setup.md).
+4. Power-cycle the board, then continue with [Setting up a ToneStrand Box](setup.md).
+
+Flashing over a box you already set up keeps its Wi-Fi networks and pairings, unless you use `--fresh`.
 
 ## Drivers
 
-None to install. The board shows up as a standard USB serial device. Seen on a macOS Mac, a Windows 11 VM and an Ubuntu VM:
-
-| System | What happened |
-|---|---|
-| macOS | A `/dev/cu.usbmodem...` port from Apple's own driver. |
-| Windows 11 | "USB Serial Device (COM3)" from Microsoft's own `usbser` driver. Other Windows versions are untested. |
-| Linux (Ubuntu) | `/dev/ttyACM0` from the kernel's `cdc_acm` module. |
-
-**Linux:** your user must be allowed to open the port, which usually means the `dialout` group. Run this, then log out and back in:
-
-```bash
-sudo usermod -aG dialout $USER
-```
+None to install in the cases seen upstream (macOS, Windows 11, Ubuntu): the board is a standard USB serial device. On Linux your user must be in the `dialout` group (`sudo usermod -aG dialout $USER`, then log out and in). On Windows with WSL2, flash from Windows (`espflash.exe`) because WSL does not see the COM port without extra tools.
 
 ## Troubleshooting
 
-- **The page cannot connect.** Unplug and replug the board. If that does not help, hold **BOOT**, tap **RESET**, release **BOOT**, then press **Install** again. Close any
-  other program that is using the board's serial port.
-- **No port in the list.** Try another cable (it must carry data). Check you are using the board's **UART USB-C** port, not the USB-A one.
-- **"Permission denied" on Linux.** See the `dialout` step above.
-- **The page says the browser cannot flash.** Use desktop Chrome or Edge.
+- **espflash cannot connect.** Unplug and replug the board. If that does not help, hold **BOOT**, tap **RESET**, release **BOOT**, and run the command again. Close any other program using the port.
+- **No port.** Try another cable (it must carry data) and use the **UART USB-C** port, not the USB-A one.
 - **The setup network does not appear.** Wait about 10 seconds after power-up. Phones can also keep an old list for a few minutes.
-- **The box stopped halfway.** Run the page again. If the box still does not start, [build and flash it from source](dev/build.md).
-- **Helrig does not find the pedal.** Replug the pedal's USB cable and try again. If it is still stuck, unplug the pedal's 9 V power for a moment. A
-  USB replug is sometimes not enough. Helrig never sends a USB reset.
-- **Helrig says the box needs pairing, or there is no Pair button.** Update Helrig to 1.5.3 or later. Then press **Pair** and, within 30 seconds, press **BOOT** on the board once. Hold it for 5 seconds and you factory-reset the box instead.
+- **The Wi-Fi scan list is empty.** The C6 may have the wrong firmware; see [the C6 notes](dev/c6-coprocessor.md).
+- **ToneStrand does not find the pedal.** Replug the pedal's USB cable; if it is still stuck, unplug its 9 V power for a moment.
 - **Do not hold BOOT while the board powers up.** That starts the chip's download mode instead of the firmware.
-- **The iPad or Mac lists the box but will not connect (Bluetooth MIDI).** Forget the box and connect again. On an iPad, forget it in the Bluetooth MIDI list (**Edit**) and also in **Settings**, **Bluetooth**. Do this after you flash with **Start as a new box** or hold BOOT for 5 seconds: the box forgets its pairings, so your device has to forget the box too.
+- **The iPad or Mac lists the box but will not connect (Bluetooth MIDI).** See [Bluetooth MIDI](bluetooth-midi.md#if-the-ipad-lists-the-box-but-will-not-connect).

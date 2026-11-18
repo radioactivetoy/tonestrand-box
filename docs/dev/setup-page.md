@@ -1,12 +1,11 @@
 # The setup page
 
+`profile/setup.html` is one file of about 9 KB. It makes no network request, so it looks the same on the box's own network and on a home network.
+
 ## Look
 
-Helrig's colours (ground `#0a0a0a`, text `#f2efe9`, and signal yellow `#FFD23F`, the Helrig Box colour, for actions and focus), the system font,
-and the Helrig Box logo as inline vector paths. The page makes no network request, so it looks the same on the box's own network and on a home
-network, and the logo links to https://helrig.com. See `brand/helrig_setup_brand.md`.
-
+Dark ground, light text, a teal accent (`#2ec4b6`) for actions and focus, the system font, and a plain "ToneStrand Box" wordmark. The Helrig logo and yellow of the original page were replaced.
 
 ## Handing a box over
 
-`scripts/flash.sh -p <port> --fresh` flashes the firmware and clears the saved settings, so the box starts as a blank Helrig Box.
+`scripts/flash.sh -p <port> --fresh` flashes the firmware and clears the saved settings, so the box starts as a blank ToneStrand Box.

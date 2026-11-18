@@ -1,24 +1,19 @@
 # How this repository is put together
 
-The Helrig Box's firmware is [ToneRelay](https://github.com/mpeskett88/ToneRelay), an open-source Wi-Fi relay for Helix pedals by Mark Peskett. What makes a
-ToneRelay build a Helrig Box is a small **profile** (`profile/`): the names the box shows the network (`Helrig Box e7fb0b`, `helrigbox.local`), the
-page it serves for Wi-Fi setup, and its defaults (relay-only on). Everything else, the relay, the USB handling and the Wi-Fi code, is ToneRelay's,
-and improvements to it go back to ToneRelay.
+ToneStrand Box is a fork of the [Helrig Box](https://github.com/maveric1977/helrig-box); the firmware is [ToneRelay](https://github.com/maveric1977/ToneRelay) by Mark Peskett and maveric1977. See [PROVENANCE.md](../../PROVENANCE.md). What makes a ToneRelay build a ToneStrand Box is a small **profile** (`profile/`): the names the box shows (`ToneStrand Box e7fb0b`, `tonestrandbox.local`, `_tonestrandbox`), the setup page, and the defaults (relay-only on). The relay, the USB handling and the Wi-Fi code are ToneRelay's.
 
-![Helrig on your computer, connected over Wi-Fi to the Helrig Box, connected by USB to your Helix or HX pedal](../../brand/diagrams/helrig-box-diagram-dark.svg)
+For editing, the box carries the pedal's USB transfers and does not interpret them; the editor (ToneStrand) is the only thing that speaks the pedal's protocol. The contract is `firmware/docs/raw-relay-protocol.md`: a `/raw` WebSocket with a bearer token, one client at a time, 512-byte messages, plus `/api/relay` and `/api/cmd`. For Bluetooth MIDI the box receives MIDI over Bluetooth LE (NimBLE) and sends it to the pedal's USB MIDI interface; see the [Bluetooth MIDI guide](../bluetooth-midi.md).
 
-For editing, the box carries the pedal's USB transfers and does not interpret them; Helrig is the only thing that speaks the pedal's protocol. The contract
-between the two is ToneRelay's `docs/raw-relay-protocol.md`. For Bluetooth MIDI, the box receives MIDI over Bluetooth LE and sends it to the pedal's USB MIDI interface; see the [Bluetooth MIDI guide](../bluetooth-midi.md) and ToneRelay's `docs/ble-midi.md`.
+Hardware: ESP32-P4 (USB host, application) plus ESP32-C6 (Wi-Fi/Bluetooth over SDIO with ESP-Hosted): [c6-coprocessor.md](c6-coprocessor.md).
 
 | Path | What it is |
 |---|---|
-| `profile/profile.c` | The Helrig Box's names and defaults. |
-| `profile/setup.html` | The setup and status page the box serves (about 9 KB, no network requests, the logo inline). |
-| `brand/` | The lockup, icon and diagram SVGs, and the brief the setup page follows. Helrig's artwork: see `NOTICE.md`. |
-| `scripts/build.sh`, `scripts/flash.sh` | Build ToneRelay with this profile and its Bluetooth MIDI settings; flash it, and optionally clear the box's settings. |
-| `hardware/casing/` | The 3D-printable case (STL files, previews and print notes), an adaptation of a CC BY 4.0 model: see `NOTICE.md`. |
-| `scripts/package-web.sh` | Split the build into the parts the web flasher writes. |
-| `web/` | The site at box.helrig.com, deployed by Vercel: the overview, the web flasher (`/flash`, from `web/flash.template.html`) and the docs, which `build-docs.mjs` builds from `README.md`, `docs/` and `hardware/`, all with the same navbar ([releasing](releasing.md)). |
-| `firmware` | ToneRelay's source (MIT, by Mark Peskett and maveric1977), imported with its history and carrying our fixes. Upstream changes are merged in from `https://github.com/maveric1977/ToneRelay`. |
+| `firmware/` | ToneRelay (MIT), imported with its history, carrying our fixes: `esp32-p4/` is the P4 firmware, `esp32-p4/components/tonerelay/midi_ble.c` the Bluetooth MIDI module, `vendor/tonepush` the Helix protocol crates. |
+| `profile/profile.c` | The box's names and defaults. |
+| `profile/setup.html` | The setup and status page the box serves (no network requests, wordmark inline). |
+| `scripts/build.sh`, `scripts/flash.sh` | Build with this profile (and the C6 image); flash, optionally clearing the saved settings. |
+| `scripts/package-web.sh` | Split the build into the parts a web flasher writes (inherited; no flasher is deployed for this fork). |
+| `hardware/casing/` | The 3D-printable case, an adaptation of a CC BY 4.0 model: see [NOTICE.md](../../NOTICE.md). |
+| `web/`, `brand/` | Inherited from the Helrig Box: its web flasher and docs site, and its artwork. Not deployed or used by us; being replaced or removed. |
 
-See also: [build from source](build.md), [releasing](releasing.md), [setup page](setup-page.md), [measurements](measurements.md).
+See also: [build](build.md), [releasing](releasing.md), [setup page](setup-page.md), [measurements](measurements.md).
