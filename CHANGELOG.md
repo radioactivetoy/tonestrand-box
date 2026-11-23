@@ -2,11 +2,13 @@
 
 Changes since the fork from the [Helrig Box](https://github.com/maveric1977/helrig-box) (see [PROVENANCE.md](PROVENANCE.md)). Dates are 2026.
 
-## Unreleased
+## 1.3.0 (23 Nov 2026): stable Rust
+
+Numbered 1.3.0 because tags v1.0.0 to v1.2.0 came over from the Helrig Box history.
 
 - Rust toolchain: stable `1.100.0` instead of `nightly-2026-07-01` (`scripts/build.sh` sets `RUSTC_BOOTSTRAP=1` for `build-std`).
 - `esp-idf-sys` 0.36.1 → 0.38.1 (supports ESP-IDF 5.5, so the "not officially supported" build warning is gone), `embuild` 0.33.5 → 0.33.7.
-- Builds (debug and release) checked; not yet tested on a board.
+- Verified on the test board with a local release build: clean boot, C6 2.12.13, joins Wi-Fi, Bluetooth MIDI advertises, web API answers, works with the pedal.
 
 ## 0.3.0 (18 Nov 2026): the first release
 

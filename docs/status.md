@@ -1,6 +1,6 @@
 # Status: what is tested and what is not
 
-Last updated 18 Nov 2026 (release 0.3.0). "Verified" means we did it on our board (one Waveshare ESP32-P4-NANO). "Inherited" means the Helrig Box project reports it and we have not repeated it on this fork.
+Last updated 23 Nov 2026 (release 1.3.0). "Verified" means we did it on our board (one Waveshare ESP32-P4-NANO). "Inherited" means the Helrig Box project reports it and we have not repeated it on this fork.
 
 ## Verified on this fork
 
@@ -21,6 +21,7 @@ Last updated 18 Nov 2026 (release 0.3.0). "Verified" means we did it on our boar
 | Flashing from the browser flasher on GitHub Pages (Chrome/Edge, COM port, 18 Nov 2026) | Works; the board then ran the page's firmware |
 | HX Stomp plugged into the box, edited from ToneStrand over Wi-Fi (18 Nov 2026) | Connects, the test page passes, live editing works |
 | ToneStrand finds and pairs the box by itself | Works (discovery can take several seconds) |
+| Release build on stable Rust 1.100.0 and `esp-idf-sys` 0.38.1, flashed with `espflash` (23 Nov 2026, 1.3.0) | Clean boot, C6 2.12.13, joins Wi-Fi, Bluetooth advertises, web API answers, works with the pedal |
 
 ## Not tested yet
 

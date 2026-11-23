@@ -14,7 +14,7 @@ app such as OnSong can change presets on the pedal.
 Hardware: a [Waveshare ESP32-P4-NANO](https://www.waveshare.com/esp32-p4-nano.htm?sku=29026) (an ESP32-P4 that talks to the pedal over USB-A, plus an ESP32-C6
 that does Wi-Fi and Bluetooth).
 
-**Latest release: [0.3.0](https://github.com/radioactivetoy/tonestrand-box/releases/latest)** (the first). Install it from your browser at
+**Latest release: [1.3.0](https://github.com/radioactivetoy/tonestrand-box/releases/latest)** (built on stable Rust). Install it from your browser at
 **https://radioactivetoy.github.io/tonestrand-box/** (desktop Chrome or Edge, about 2 minutes), or with `espflash` ([flashing](docs/flashing.md)).
 
 ## What is different from the Helrig Box
