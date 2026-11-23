@@ -18,6 +18,9 @@ if [[ -z "${IDF_PATH:-}" ]]; then
 fi
 
 export TONERELAY_PROFILE_DIR="$HERE/profile"
+# The toolchain is a stable release (firmware/esp32-p4/rust-toolchain.toml); building std for the ESP32-P4 target (build-std)
+# is a nightly-only cargo feature, which this unlocks on the stable compiler.
+export RUSTC_BOOTSTRAP=1
 # Bluetooth MIDI (ToneRelay's sdkconfig.midi.defaults): the box also shows up as a Bluetooth MIDI device. The link has to be encrypted.
 export ESP_IDF_SDKCONFIG_DEFAULTS="${ESP_IDF_SDKCONFIG_DEFAULTS:-sdkconfig.defaults;sdkconfig.midi.defaults}"
 cd "$TONERELAY_DIR/esp32-p4"

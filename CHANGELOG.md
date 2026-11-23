@@ -2,6 +2,12 @@
 
 Changes since the fork from the [Helrig Box](https://github.com/maveric1977/helrig-box) (see [PROVENANCE.md](PROVENANCE.md)). Dates are 2026.
 
+## Unreleased
+
+- Rust toolchain: stable `1.100.0` instead of `nightly-2026-07-01` (`scripts/build.sh` sets `RUSTC_BOOTSTRAP=1` for `build-std`).
+- `esp-idf-sys` 0.36.1 → 0.38.1 (supports ESP-IDF 5.5, so the "not officially supported" build warning is gone), `embuild` 0.33.5 → 0.33.7.
+- Builds (debug and release) checked; not yet tested on a board.
+
 ## 0.3.0 (18 Nov 2026): the first release
 
 - Forked; ToneRelay imported into `firmware/` with its history; single repository, no submodule.

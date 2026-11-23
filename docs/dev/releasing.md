@@ -6,7 +6,7 @@ Development is built locally ([build.md](build.md)). **Releases are built by Git
 
 1. Update `CHANGELOG.md` and `docs/status.md`. Test the build you intend to release on a board (build locally with `scripts/build.sh --release` and flash it).
 2. Tag and push: `git tag -a v0.4.0 -m "ToneStrand Box 0.4.0" && git push origin main v0.4.0`. A tag with a dash (`v0.4.0-rc1`) is published as a pre-release.
-3. The **Release** workflow (`.github/workflows/release.yml`) installs ESP-IDF 5.5.3 and the pinned Rust nightly, builds the firmware and the ESP32-C6 image with `scripts/build.sh --release`, packages it with `scripts/package-web.sh`, and publishes the release with: `tonestrand-box-web-firmware-<version>.zip` (what the flasher writes), `hxbridge-p4` and `partitions.csv` (for `espflash`). The first build takes a long time (about 30 to 60 minutes, ESP-IDF is installed); later ones reuse the cache.
+3. The **Release** workflow (`.github/workflows/release.yml`) installs ESP-IDF 5.5.3 and the pinned stable Rust (1.100.0), builds the firmware and the ESP32-C6 image with `scripts/build.sh --release`, packages it with `scripts/package-web.sh`, and publishes the release with: `tonestrand-box-web-firmware-<version>.zip` (what the flasher writes), `hxbridge-p4` and `partitions.csv` (for `espflash`). The first build takes a long time (about 30 to 60 minutes, ESP-IDF is installed); later ones reuse the cache.
 4. It then starts the **Pages** workflow, which redeploys the flasher page with the firmware from the latest *full* release (pre-releases are not served by the page).
 
 "Run workflow" on the Release workflow (without a tag) only builds, and attaches the files to the run: use it to try the pipeline.

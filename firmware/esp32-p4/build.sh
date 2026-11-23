@@ -7,4 +7,6 @@ if [[ -d "$ROOT/web/node_modules" ]]; then
   (cd "$ROOT/web" && npm run build)
 fi
 cd "$ROOT/esp32-p4"
+# Stable toolchain (rust-toolchain.toml); build-std needs this on it.
+export RUSTC_BOOTSTRAP=1
 exec cargo build --release "$@"

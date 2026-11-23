@@ -5,7 +5,7 @@ For development, build locally (this page); releases are built by GitHub Actions
 ## What you need
 
 - **ESP-IDF v5.5.3** ([Espressif's install guide](https://docs.espressif.com/projects/esp-idf/en/v5.5.3/esp32p4/get-started/)), with its `export.sh` sourced in the shell you build from.
-- **Rust** through `rustup`. `firmware/esp32-p4/rust-toolchain.toml` pins `nightly-2026-07-01` with `rust-src`; `rustup` installs it on the first build.
+- **Rust** through `rustup`. `firmware/esp32-p4/rust-toolchain.toml` pins the stable release `1.100.0` with `rust-src`; `rustup` installs it on the first build. std for the ESP32-P4 is built from source (`build-std`), which needs `RUSTC_BOOTSTRAP=1` on a stable compiler: `scripts/build.sh` sets it; set it yourself if you run `cargo build` directly.
 - **`ldproxy`** and **`espflash`**: `cargo install ldproxy espflash`.
 - **`git`**, **Python 3**, and **libclang** (`export LIBCLANG_PATH=...`).
 

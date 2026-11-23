@@ -1,5 +1,7 @@
 [toolchain]
-# nightly-2026-10-25 and nightly-2026-11-12 fail compiling std for riscv32imafc-esp-espidf
-# (no field st_atime on libc::stat); this date builds. Move it forward only after trying a build.
-channel = "nightly-2026-07-01"
+# A stable release, not a nightly. riscv32imafc-esp-espidf has no prebuilt std, so cargo builds it from rust-src
+# (`build-std` in .cargo/config.toml), which needs RUSTC_BOOTSTRAP=1 on a stable compiler: scripts/build.sh sets it.
+# 1.100.0 builds (debug and release, checked 23 Nov 2026). Nightlies from 2026-10-25 and 2026-11-12 failed compiling std for
+# this target (no field st_atime on libc::stat); that change may reach a later stable, so move this forward only after a build.
+channel = "1.100.0"
 components = ["rust-src"]

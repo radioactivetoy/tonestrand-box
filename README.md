@@ -26,7 +26,7 @@ that does Wi-Fi and Bluetooth).
 | Bluetooth MIDI after a C6 update | Dead (controller never started) | **Fixed**: the Bluetooth controller is started before NimBLE |
 | No Wi-Fi available | Setup network only, for setup | **Direct mode**: hold BOOT 2 to 4 s and the box keeps its own network up (with a password you set) and stops looking for a router, for editing with none ([setup](docs/setup.md#direct-mode-no-wi-fi-at-all)) |
 | Own network while a client is on it | Background scans for the router could drop the client | The box waits until the client leaves |
-| Rust toolchain | Floating `nightly` (breaks with time) | **Pinned** (`nightly-2026-07-01`) |
+| Rust toolchain | Floating `nightly` (breaks with time) | **Pinned stable release** (`1.100.0`) |
 | Build | macOS notes | macOS notes **plus Windows/WSL2**, one repository (no submodule) |
 | Releases | Built on a maintainer's machine | Built by GitHub Actions on a tag; development is built locally |
 | Editing client | Helrig | ToneStrand |

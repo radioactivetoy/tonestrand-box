@@ -6,7 +6,7 @@ Last updated 18 Nov 2026 (release 0.3.0). "Verified" means we did it on our boar
 
 | What | Result |
 |---|---|
-| Cold build in WSL2 (Ubuntu, ESP-IDF 5.5.3, pinned Rust nightly) | Works, about 60 s with warm downloads |
+| Cold build in WSL2 (Ubuntu, ESP-IDF 5.5.3, pinned stable Rust 1.100.0) | Works, about 60 s with warm downloads |
 | Build of the ESP32-C6 firmware by `scripts/build.sh` | Works; rebuild from a clean tree reproduces a working image |
 | Flash from Windows with `espflash` 4.7.0 (COM port) | Works |
 | C6 co-processor firmware after boot | 2.12.13 (host side 2.12.0) |
